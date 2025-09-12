@@ -1,0 +1,43 @@
+# configuration parameters for climate indicator computation
+
+[GENERAL]
+YEAR_START = 1961
+YEAR_END = 2024
+
+[PATHS]
+# path to data per base variable needed for climate indicators
+# indicate missing data with "None". climate indicators for
+# which missing data is needed will log an error and be skipped.
+# data is expected to be uniquely stored per variable
+# in one folder.
+TN = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/TN"          # daily minimum temperature
+TX = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/TX"          # daily maximum temperature
+RR = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/RRhr"        # daily precipitation
+TG = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/TG"          # daily mean temperature
+SA = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/SA"          # absolute sunshine duration
+SR = "/data/klimaforschung/klifofo_products/spartacus/v2.1/02_nc/01_day/SR"          # relative sunshine duration
+ET0 = "/data/klimaforschung/klifofo_products/winfore/v2.1/02_nc/01_day/ET0"          # winfore ET0
+SPEI30 = "/data/klimaforschung/klifofo_products/winfore/v2.1/02_nc/01_day/SPEI30"    # winfore SPEI30
+SPEI90 = "/data/klimaforschung/klifofo_products/winfore/v2.1/02_nc/01_day/SPEI90"    # winfore SPEI90
+SPEI365 = "/data/klimaforschung/klifofo_products/winfore/v2.1/02_nc/01_day/SPEI365"  # winfore SPEI365
+snow_depth = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/snow_depth"             # daily snowgrid params
+snow_depth_fresh = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/snow_depth_fresh" # daily snowgrid params
+swe_tot = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/swe_tot"                   # daily snowgrid params
+swe_fresh = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/swe_fresh"               # daily snowgrid params
+snow_temp = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/snow_temp"               # daily snowgrid params
+runoff = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/runoff"                     # daily snowgrid params
+snowmelt = "/data/klimaforschung/klifofo_products/snowgrid/cleaned_data_snowgrid-cl_reordered/snowmelt"                 # daily snowgrid params
+OUT = "/perm/klifol/slehner/austrian_climate_indicators"
+
+[CLIMATE_INDICES]
+# configure which climate indicators should be calculated
+# if IND_LIST = "all", all climate indicators from doc/indices.csv
+# will be calculated, otherwise specify a list of climate indicators
+# explicilty by using the abbreviation/index name (e.g. "SU" for
+# Summer Days).
+# IND_LIST = ["SU", "TR"]  # example
+IND_LIST = "all"
+
+[CRS]
+# EPSG for CRS information
+EPSG = "3416"

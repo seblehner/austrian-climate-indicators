@@ -1,0 +1,8 @@
+__pycache__/
+.vscode/
+.doit*
+.python-version
+.venv
+logs
+.pytask
+src/test.ipynb
