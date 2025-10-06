@@ -14,7 +14,7 @@ Matthias Schlögl
 **1-km resolution climate indicators for Austria (since 1961)**.
 
 This repository provides a toolkit to compute climate indicators for applications in climate impact research.
-The implementation leverages [xclim](https://xclim.readthedocs.io/en/stable/) for index computation.
+The implementation leverages [xclim](https://xclim.readthedocs.io/en/stable/) and self-implemented algorithms for index computation.
 `xclim` is a library on top of `xarray` for the calculation of climate indicators.
 
 Furthermore, this repository contains default configs for the following meteorological variables and their corresponding data source:
@@ -49,6 +49,6 @@ The list of available climate indicators contains [Climdex](https://www.climdex.
 
 ## Aggregation, Evaluation and Visualisation
 
-Aggregation and evaluation can be run by `uv run src/climind_eval.py`. This script also takes the configuration from the `config.toml` file for which indicators it should be executed. There are 3 steps that are executed: 1) calculation of spatial averages, 2) calculation of climatological means (for the two periods 1961 to 1990 and 1991 to 2020), and 3) a two-tailed Mann-Whitney U-test for statistical significant changes between the two climatological averaged fields. The calculated data is saved into the output directory specified in `config.toml`.
+Aggregation and evaluation can be run by `uv run src/climind_eval.py`. This script also takes the configuration from the `config.toml` file for which indicators it should be executed. There are 3 steps that are executed: 1) calculation of spatial averages, 2) calculation of climatological means (for the two periods 1961 to 1990 and 1991 to 2020), and 3) a two-tailed Mann-Whitney U-test for statistical significant changes between the two climatological periods. The calculated data is saved into the output directory specified in `config.toml`.
 
 Visualisation intakes the calculated climate indicators and/or the aggregation/evaluation data depending on the plots. There following visualisations are implemented and can be explored in this [showcase document](doc/visualisation_showcase.md): 1) time series of spatial averaged anomalies for annual/seasonal aggregations, 2) spatial maps of the climatologies and their difference, 3) stampplots and anomaly stampplots of the climate indicators, 4) grouped significant changes plots, and 5) grouped warming stripes. The groupings for 4) and 5) are based on the base input parameter for each indicator (see the linked showcase above for more details).
