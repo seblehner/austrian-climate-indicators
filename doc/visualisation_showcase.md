@@ -37,14 +37,14 @@ In order to visualise annual/seasonal fields, each Year is plotted as field in t
 
 ### Grouped significant changes plots
 
-In order to give a quick overview across all indicators that have changed significantly (two-tailed Mann-Whitney test between recent and past with `p=0.05` as threshold), we group the climate indicators into categories and visualise the portion of the group who has changed significantly (i.e. $p_{value}<0.05$). `runoff` indicators are grouped with `snow`, `radiation` with `temperature` and the `precipitation_temperature` into either `precipitation`, or `temperature` depending on the indicator.
+In order to give a quick overview across all indicators that have changed significantly (two-tailed Mann-Whitney test between recent and past with `p=0.05` as threshold), we group the climate indicators into categories and visualise the portion of the group with significant changes (i.e. $p_{value}<0.05$). `runoff` indicators are grouped with `snow`, `radiation` with `temperature` and the `mixed` group into either `precipitation`, `temperature`, or `humidity` depending on the indicator.
 
 ![](./example_plots/temperature_yea_significance.png)
 
 
 ### Warming stripes
 
-Warming stripes plots are generated in a similar amount as areamean timeseries plot, and show areameans for annual/seasonal anomalies for each year with respect to 1961—1990. The indicators are grouped into the main categories to provide a concise overview per group. `runoff` indicators are grouped with `snow`, `radiation` with `temperature` and the `precipitation_temperature` into either `precipitation`, or `temperature` depending on the indicator (similar to the grouped significant changes plot).
+Warming stripes plots are generated in a similar amount as areamean timeseries plot, and show areameans for annual/seasonal anomalies for each year with respect to 1961—1990. The indicators are grouped into the main categories to provide a concise overview per group. `runoff` indicators are grouped with `snow`, `radiation` with `temperature` and the `mixed` group into either `precipitation`, `temperature`, or `humidity` depending on the indicator (similar to the grouped significant changes plot).
 
 ![](./example_plots/humidity_yea_warming_stripes.png)
 

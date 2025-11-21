@@ -64,14 +64,14 @@ API07_Q95,0.95 quantile of antecedent precipitation index (k=7;p=0.9),precipitat
 API14_Q95,0.95 quantile of antecedent precipitation index (k=14;p=0.9),precipitation,RR,,Kohler and Linsley (1924),yea+sea,k_timeperiod=14,no_xclim,kg/m²
 API28_Q95,0.95 quantile of antecedent precipitation index (k=28;p=0.9),precipitation,RR,,Kohler and Linsley (1924),yea+sea,k_timeperiod=28,no_xclim,kg/m²
 PCI_Q95,0.95 quantile of precipitation concentration index,precipitation,RR,,Oliver (2010),yea+sea,,no_xclim,1
-SHMI,Summer heat-moisture index,precipitation_temperature,RR+TG,TG warmest month : mean summer RR,waldzukunft,yea,,no_xclim,°C/mm
+SHMI,Summer heat-moisture index,mixed,RR+TG,TG warmest month : mean summer RR,waldzukunft,yea,,no_xclim,°C/mm
 SAmean,Absolute sunshine duration,radiation,SA,,Hiebl et al. (2024),yea+sea,,no_xclim,hour
 SRmean,Relative sunshine duration,radiation,SR,,Hiebl et al. (2024),yea+sea,,no_xclim,hour
 ET0mean,Mean reference evapotranspiration,humidity,ET0,,Haslinger and Bartsch (2016),yea+sea,,no_xclim,kg/m²day
-ET0_Qcold,Mean PET in coldest quarter,humidity,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qdry,Mean monthly PET in driest quarter,humidity,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qwarm,Mean monthly PET in warmest quarter,humidity,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qwet,Mean monthly PET in wettest quarter,humidity,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
+ET0_Qcold,Mean PET in coldest quarter,mixed,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
+ET0_Qdry,Mean monthly PET in driest quarter,mixed,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
+ET0_Qwarm,Mean monthly PET in warmest quarter,mixed,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
+ET0_Qwet,Mean monthly PET in wettest quarter,mixed,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
 ET0_seasonality,Mean monthly variabiity in PET,humidity,ET0,,waldzukunft,yea+sea,,no_xclim,mm²/day²
 SPEI30mean,Mean of Standardized Precipitation Evapotranspiration Index (30 days),humidity,SPEI30,,Vicente-Serrano et al. (2010),yea+sea,,no_xclim,1
 SPEI90mean,Mean of Standardized Precipitation Evapotranspiration Index (90 days),humidity,SPEI90,,Vicente-Serrano et al. (2010),yea+sea,,no_xclim,1
@@ -96,8 +96,8 @@ BIO04,Temperature seasonality,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P4
 BIO05,Max temperature of warmest month,temperature,TX,,anuclim*,yea,,indicators.anuclim.P5_MaxTempWarmestPeriod,°C
 BIO06,Min temperature of coldest month,temperature,TN,,anuclim*,yea,,indicators.anuclim.P6_MinTempColdestPeriod,°C
 BIO07,Temperature annual range,temperature,TN+TX,,ANUCLIM,yea,,indicators.anuclim.P7_TempAnnualRange,°C
-BIO08,Mean temperature of wettest quarter,precipitation_temperature,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P8_MeanTempWettestQuarter,°C
-BIO09,Mean temperature of driest quarter,precipitation_temperature,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P9_MeanTempDriestQuarter,°C
+BIO08,Mean temperature of wettest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P8_MeanTempWettestQuarter,°C
+BIO09,Mean temperature of driest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P9_MeanTempDriestQuarter,°C
 BIO10,Mean temperature of warmest quarter,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P10_MeanTempWarmestQuarter,°C
 BIO11,Mean temperature of coldest quarter,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P11_MeanTempColdestQuarter,°C
 BIO12,Annual precipitation,precipitation,RR,,anuclim*,yea,,indicators.anuclim.P12_AnnualPrecip,kg/m²
@@ -106,8 +106,8 @@ BIO14,Precipitation of driest month,precipitation,RR,,ANUCLIM,yea,,indicators.an
 BIO15,Precipitation seasonality,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P15_PrecipSeasonality,kg/m²
 BIO16,Precipitation of wettest quarter,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P16_PrecipWettestQuarter,kg/m²
 BIO17,Precipitation of driest quarter,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P17_PrecipDriestQuarter,kg/m²
-BIO18,Precipitation of warmest quarter,precipitation_temperature,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P18_PrecipWarmestQuarter,kg/m²
-BIO19,Precipitation of coldest quarter,precipitation_temperature,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P19_PrecipColdestQuarter,kg/m²
+BIO18,Precipitation of warmest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P18_PrecipWarmestQuarter,kg/m²
+BIO19,Precipitation of coldest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P19_PrecipColdestQuarter,kg/m²
 HN1_SD,Number of days with fresh snow greater than 1 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 1 cm,,hydrological_year,thresh='1 cm',indicators.land.snd_storm_days,day
 HN5_SD,Number of days with fresh snow greater than 5 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 5 cm,,hydrological_year,thresh='5 cm',indicators.land.snd_storm_days,day
 HN10_SD,Number of days with fresh snow greater than 10 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 10 cm,,hydrological_year,thresh='10 cm',indicators.land.snd_storm_days,day

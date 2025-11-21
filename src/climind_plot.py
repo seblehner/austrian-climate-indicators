@@ -975,8 +975,8 @@ if __name__ == "__main__":
     # radiation are only 2 indicators, put them into temperature because
     #     they are highly correlated
     # runoff is added to snow, similarly because of how they are related
-    # precipitation_temperature indicators are moved into either temperature,
-    #     or precipitation, depending on what parameter is used more
+    # mixed indicators are moved into either temperature,
+    #     precipitation, or humidity, depending on the indicator
     df_groups["group_plots"] = df_groups["group"]
     df_groups["aggperiod_plots"] = df_groups["aggperiod"]
     df_groups.loc[df_groups["group_plots"].isin(["radiation"]), "group_plots"] = (
@@ -999,6 +999,10 @@ if __name__ == "__main__":
         "precipitation"
     )
     df_groups.loc[df_groups["index"].isin(["SHMI"]), "group_plots"] = "temperature"
+    df_groups.loc[
+        df_groups["index"].isin(["ET0_Qcold", "ET0_Qdry", "ET0_Qwarm", "ET0_Qwet"]),
+        "group_plots",
+    ] = "humidity"
 
     for (grouping, aggp), df_iter in df_groups.groupby(
         ["group_plots", "aggperiod_plots"]
