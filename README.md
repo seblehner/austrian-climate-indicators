@@ -1,10 +1,13 @@
 # 1-km resolution climate indicators for Austria (since 1961)
 
-<!-- badges: start -->
-<!-- [![DOI paper](https://zenodo.org/badge/DOI/xyz/)]() -->
-[![DOI data](https://zenodo.org/badge/DOI/10.5281/zenodo.16928609.svg)](https://doi.org/10.5281/zenodo.16928609)
-[![Python code style: black](https://img.shields.io/badge/codestyle-black-black)](https://github.com/psf/black)
-<!-- badges: end -->
+<!-- badges -->
+<p align="center">
+    <a href="https://doi.org/10.5281/zenodo.16928609">
+        <img alt="Zenodo data doi" src="https://zenodo.org/badge/DOI/10.5281/zenodo.16928609.svg"></a>
+    <a href="https://github.com/psf/black">
+        <img alt="Python code style: black" src="https://img.shields.io/badge/codestyle-black-000000.svg"></a>
+</p>
+<!-- badges -->
 
 This repository supplements the manuscript by
 Sebastian Lehner <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-7562-8172)</sup>
