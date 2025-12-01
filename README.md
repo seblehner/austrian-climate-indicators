@@ -102,4 +102,13 @@ The list of available climate indicators contains [Climdex](https://www.climdex.
 
 ## Visualisation
 
-Visualisation intakes the calculated climate indicators and/or the aggregation/evaluation data depending on the plots. There following visualisations are implemented and can be explored in this [showcase document](doc/visualisation_showcase.md): 1) time series of spatial averaged anomalies for annual/seasonal aggregations, 2) spatial maps of the climatologies and their difference, 3) stampplots and anomaly stampplots of the climate indicators, 4) grouped significant changes plots, and 5) grouped warming stripes. The groupings for 4) and 5) are based on the base input parameter for each indicator (see the linked showcase above for more details).
+Visualizations use either the computed indicators or the aggregated/evaluated outputs. The following visualizations are implemented and can be explored in the [showcase document](doc/visualisation_showcase.md):
+
+1. Time series of spatially averaged anomalies (annual/seasonal)
+2. Spatial maps of climatologies and their differences
+3. Stamp plots and anomaly stamp plots
+4. Grouped significant changes plots
+5. Grouped warming stripes
+6. Year-of-minimum/maximum per grid cell and histograms over time
+
+Groupings for plots (4) and (5) are based on each indicator’s input parameters (details in the showcase).
