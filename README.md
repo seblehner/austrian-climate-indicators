@@ -16,9 +16,13 @@ Matthias Schlögl
 <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-4357-523X)</sup>:
 **Climate indicators for Austria since 1961 at 1 km resolution**.
 
-This repository provides a toolkit to compute climate indicators for applications in climate impact research.
-The implementation leverages [xclim](https://xclim.readthedocs.io/en/stable/) and self-implemented algorithms for index computation.
-`xclim` is a library on top of `xarray` for the calculation of climate indicators.
+
+> [!NOTE]
+> In a nutshell:
+> - A comprehensive toolkit to compute, aggregate, and visualize climate indicators for climate impact applications.
+> - Built on [`xclim`](https://xclim.readthedocs.io/en/stable/) and [`xarray`](https://docs.xarray.dev/en/stable/index.html) for index computation, with task automation via [`pytask`](https://pytask-dev.readthedocs.io/en/stable/).
+> - Works out of the box with defaults for gridded climate data sets from Austria (SPARTACUS, WINFORE and SNOWGRID-CL), but can be configured for any dataset readable by `xarray`.
+
 
 Furthermore, this repository contains default configs for the following meteorological variables and their corresponding data source:
 
