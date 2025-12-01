@@ -83,7 +83,14 @@ Outputs are stored in the directory specified in `config.toml`.
 
 ## Automation
 
-This repository includes automation by using [pytask](https://pytask-dev.readthedocs.io/en/stable/), which is installed automatically by the given environment via `uv`. Simply run `uv run pytask` to execute all automated tasks. Some `pytask` configuration can be found and adapted within the `pyproject.toml` file. For parallel processing, either update the config file, or use `uv run pytask -n NUM_WORKERS`. Note that `pytask` by default captures all `stdout` and `stderr`, which means that it will not properly be logged within the logfiles. To prevent this and log all output correctly to the logfile, use the `-s` option: e.g. `uv run pytask -s`.
+> [!IMPORTANT]
+> This project leverages [pytask](https://pytask-dev.readthedocs.io/en/stable/) for workflow management.
+
+- `pytask` is included in the environment and installed via `uv`.
+- Simply run `uv run pytask` to execute all automated tasks.
+- The `pytask` configuration can be adapted through the `pyproject.toml` file.
+- For parallel processing, either update the config file, or use `uv run pytask -n NUM_WORKERS`.
+- By default, `pytask` captures all `stdout` and `stderr`, which means that it will not properly be logged within the logfiles. To stream logs to console and log files (recommended), use the `-s` option, i.e. `uv run pytask -s`.
 
 
 ## Climate indicators
