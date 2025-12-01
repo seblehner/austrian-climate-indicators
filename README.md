@@ -92,12 +92,24 @@ Outputs are stored in the directory specified in `config.toml`.
 - For parallel processing, either update the config file, or use `uv run pytask -n NUM_WORKERS`.
 - By default, `pytask` captures all `stdout` and `stderr`, which means that it will not properly be logged within the logfiles. To stream logs to console and log files (recommended), use the `-s` option, i.e. `uv run pytask -s`.
 
+## Configuration
+
+> [!NOTE]
+> All configuration settings are controlled via `config.toml`.
+
+Typical settings:
+- Input dataset location and variable names
+- Years or time range
+- Output directory
+- Specification of indicators to compute
+
+To compute only selected indicators, use the abbreviations (as listed in the `index` column in [doc/indices.csv](doc/indices.csv)) in the `[CLIMATE_INDICES]` section of `config.toml`. If omitted, all indicators listed in `doc/indices.csv` are computed.
+
 
 ## Climate indicators
 
-Climate indicators can be calculated by using the defined abbrevitation from the `index` column in [doc/indices.csv](doc/indices.csv), within the `config.toml` file in the `[CLIMATE_INDICES]` section to calculate only a subset of climate indicators. Otherwise, all climate indicators listed in `doc/indices.csv` are calculated. 
-
-The list of available climate indicators contains [Climdex](https://www.climdex.org/learn/indices/), [BIOCLIM](https://www.worldclim.org/data/bioclim.html) and various other indicators (full list in [doc/indices.csv](doc/indices.csv)).
+- The list of all currently implemented indicators is available as [doc/indices.csv](doc/indices.csv)
+- The list comprises [Climdex](https://www.climdex.org/learn/indices/), [BIOCLIM](https://www.worldclim.org/data/bioclim.html) and additional indices from xclim, as well as custom routines.
 
 
 ## Visualisation
