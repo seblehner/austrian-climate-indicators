@@ -37,11 +37,48 @@ Default configs for the following meteorological variables and their correspondi
 Different datasets are untested and may require adaptations due to a different input data structure (e.g., variable naming, calendar, units, chunking).
 
 
-## Usage
+## Quick start
 
-This project has been set up with [uv](https://docs.astral.sh/uv). After cloning this repository, start with `uv sync` to install the dependencies into a local `.venv` environment (if local `quota` is an issue, you can also symlink `.venv` to a different location (e.g. your `/perm`, or `/scratch`); `uv` will still work correctly). Then, `uv run src/main.py`, or better, `uv run pytask` (see Automation below) can be used to execute the calculation of climate indicators. Note that all the configuration is done within `config.toml`.
+> [!IMPORTANT]
+> This project leverages [uv](https://docs.astral.sh/uv) for package and project management.
 
-In order to quickly verify if the calculation of indices was succesful, use `uv run src/check_files.py`. Thereby, based on the configuration within `config.toml`, the number of existing files in the output path is checked against the expected number depending on the years specified. As validity criteria, a filesize of 100 KiloBytes is used. Note that no checks on the data itself is being done.
+1. Clone the repository
+2. Install dependencies using uv (creates a local `.venv`):
+   ```bash
+   uv sync
+   ```
+3. Adapt the configuration in `config.toml`.
+4. Run the workflow:
+   ```bash
+   uv run pytask
+   ```
+   or run individual steps manually.
+
+
+### Output validation
+
+> [!TIP]
+> Run the validation task with
+> `uv run src/check_files.py`
+
+This performs the following checks:
+- Compare the actual output file counts in the output path versus the expected number depending on the years specified in the `config.toml`.
+- Test whether the minimum output file size exceeds a threshold of 100 KB.
+- Note: This does not validate data values; it only checks presence and size.
+
+
+### Aggregation and evaluation
+
+> [!TIP]
+> Run the aggregation and evaluation task:
+> `uv run src/climind_eval.py`
+
+This computes:
+1. Spatial averages;
+2. Climatological means for 1961–1990 and 1991–2020;
+3. Two-tailed Mann–Whitney U-tests for significant changes between the two climatological fields.
+
+Outputs are stored in the directory specified in `config.toml`.
 
 
 ## Automation
@@ -56,8 +93,6 @@ Climate indicators can be calculated by using the defined abbrevitation from the
 The list of available climate indicators contains [Climdex](https://www.climdex.org/learn/indices/), [BIOCLIM](https://www.worldclim.org/data/bioclim.html) and various other indicators (full list in [doc/indices.csv](doc/indices.csv)).
 
 
-## Aggregation, Evaluation and Visualisation
-
-Aggregation and evaluation can be run by `uv run src/climind_eval.py`. This script also takes the configuration from the `config.toml` file for which indicators it should be executed. There are 3 steps that are executed: 1) calculation of spatial averages, 2) calculation of climatological means (for the two periods 1961 to 1990 and 1991 to 2020), and 3) a two-tailed Mann-Whitney U-test for statistical significant changes between the two climatological periods. The calculated data is saved into the output directory specified in `config.toml`.
+## Visualisation
 
 Visualisation intakes the calculated climate indicators and/or the aggregation/evaluation data depending on the plots. There following visualisations are implemented and can be explored in this [showcase document](doc/visualisation_showcase.md): 1) time series of spatial averaged anomalies for annual/seasonal aggregations, 2) spatial maps of the climatologies and their difference, 3) stampplots and anomaly stampplots of the climate indicators, 4) grouped significant changes plots, and 5) grouped warming stripes. The groupings for 4) and 5) are based on the base input parameter for each indicator (see the linked showcase above for more details).
