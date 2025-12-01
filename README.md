@@ -24,15 +24,17 @@ Matthias Schlögl
 > - Works out of the box with defaults for gridded climate data sets from Austria (SPARTACUS, WINFORE and SNOWGRID-CL), but can be configured for any dataset readable by `xarray`.
 
 
-Furthermore, this repository contains default configs for the following meteorological variables and their corresponding data source:
+## Input data sets
+
+Default configs for the following meteorological variables and their corresponding data source are available:
 
 - Temperature: https://doi.org/10.60669/m6w8-s545
 - Precipitation: https://doi.org/10.60669/m6w8-s545
 - Evapotranspiration: https://doi.org/10.60669/f6ed-2p24
 - Sunshine duration: https://doi.org/10.60669/m6w8-s545
-- Snow and runoff: https://doi.org/10.60669/fsxx-6977﻿
+- Snow and runoff: https://doi.org/10.60669/fsxx-6977
 
-The routines are flexible and the source of the data can be configured to any data readable with `xarray`, by changing the configuration parameters in `config.toml`. Note though, that for different datasets, some adaptations to deal with differently structured data likely has to be done.
+Different datasets are untested and may require adaptations due to a different input data structure (e.g., variable naming, calendar, units, chunking).
 
 
 ## Usage
