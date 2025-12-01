@@ -1,4 +1,4 @@
-# 1-km resolution climate indicators for Austria (since 1961)
+# High-resolution climate indicators for gridded climate data in Austria
 
 <!-- badges -->
 <p align="center">
@@ -14,7 +14,7 @@ Sebastian Lehner <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orc
 and
 Matthias Schlögl
 <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-4357-523X)</sup>:
-**1-km resolution climate indicators for Austria (since 1961)**.
+**Climate indicators for Austria since 1961 at 1 km resolution**.
 
 This repository provides a toolkit to compute climate indicators for applications in climate impact research.
 The implementation leverages [xclim](https://xclim.readthedocs.io/en/stable/) and self-implemented algorithms for index computation.
