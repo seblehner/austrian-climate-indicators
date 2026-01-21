@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Styling is loosely inspired by https://bootswatch.com/flatly/ -->
+<!-- https://github.com/thomaspark/bootswatch/blob/v5/dist/flatly/bootstrap.css -->
+<!-- Icons: Font Awesome Free v7.0.0 - https://fontawesome.com/license/free -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Indicators for Austria</title>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #212529;
+            margin: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: calc(1.425rem + 2.1vw);
+            color: #2c3e50;
+            margin-bottom: -1.25rem;
+        }
+
+        h2 {
+            font-size: calc(1.375rem + 1.5vw);
+            color: #95a5a6;
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: 1.75rem;
+            margin: 1rem 0 1rem;
+            color: #2c3e50;
+        }
+
+        .title-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: calc(100vw - 10px);
+            align-items: center;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .bottom-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .list-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .list-item svg {
+            margin-bottom: 0.5rem;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            background-color: #18bc9c;
+        }
+
+        .button-link:hover {
+            background-color: #20c997;
+        }
+
+        .description {
+            font-size: 1.25rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <!-- top container -->
+        <div class="title-card">
+            <h1>Climate Indicators for Austria</h1>
+            <h2>1961 - 2025</h2>
+            <p>1 km spatial resolution</p>
+        </div>
+
+        <!-- bottom container -->
+        <div class="bottom-container">
+            <div class="list-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="4rem" height="4rem"
+                    aria-hidden="true">
+                    <path fill="#95a5a6"
+                        d="M197.8 100.3C208.7 107.9 211.3 122.9 203.7 133.7L147.7 213.7C143.6 219.5 137.2 223.2 130.1 223.8C123 224.4 116 222 111 217L71 177C61.7 167.6 61.7 152.4 71 143C80.3 133.6 95.6 133.7 105 143L124.8 162.8L164.4 106.2C172 95.3 187 92.7 197.8 100.3zM197.8 260.3C208.7 267.9 211.3 282.9 203.7 293.7L147.7 373.7C143.6 379.5 137.2 383.2 130.1 383.8C123 384.4 116 382 111 377L71 337C61.6 327.6 61.6 312.4 71 303.1C80.4 293.8 95.6 293.7 104.9 303.1L124.7 322.9L164.3 266.3C171.9 255.4 186.9 252.8 197.7 260.4zM288 160C288 142.3 302.3 128 320 128L544 128C561.7 128 576 142.3 576 160C576 177.7 561.7 192 544 192L320 192C302.3 192 288 177.7 288 160zM288 320C288 302.3 302.3 288 320 288L544 288C561.7 288 576 302.3 576 320C576 337.7 561.7 352 544 352L320 352C302.3 352 288 337.7 288 320zM224 480C224 462.3 238.3 448 256 448L544 448C561.7 448 576 462.3 576 480C576 497.7 561.7 512 544 512L256 512C238.3 512 224 497.7 224 480zM128 440C150.1 440 168 457.9 168 480C168 502.1 150.1 520 128 520C105.9 520 88 502.1 88 480C88 457.9 105.9 440 128 440z" />
+                </svg>
+                <p class="description">Overview of Indicators</p>
+                <button class="button-link" onclick="location.href='overview_table.html'">Overview</button>
+            </div>
+            <div class="list-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="4rem" height="4rem"
+                    aria-hidden="true">
+                    <path fill="#95a5a6"
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376C296.3 401.1 253.9 416 208 416 93.1 416 0 322.9 0 208S93.1 0 208 0 416 93.1 416 208zm-312 8l0 64c0 13.3 10.7 24 24 24s24-10.7 24-24l0-64c0-13.3-10.7-24-24-24s-24 10.7-24 24zm80-96l0 160c0 13.3 10.7 24 24 24s24-10.7 24-24l0-160c0-13.3-10.7-24-24-24s-24 10.7-24 24zm80 64l0 96c0 13.3 10.7 24 24 24s24-10.7 24-24l0-96c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+                </svg>
+                <p class="description">Definition of Indicators</p>
+                <button class="button-link" onclick="location.href='indicator_definitions.html'">Definition</button>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

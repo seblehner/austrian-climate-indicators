@@ -1,0 +1,173 @@
+---
+title: "Overview of climate indicators"
+author:
+  - name: Sebastian Lehner
+    orcid: 0000-0002-7562-8172
+    email: sebastian.lehner@geosphere.at
+    affiliations:
+      - name: GeoSphere Austria
+        department: Climate Impact Research
+        address: Hohe Warte 38
+        city: Vienna
+        country: Austria
+        url: https://geosphere.at/en
+      - name: University of Vienna
+        department: Department of Meteorology and Geophysics
+        address: Josef-Holaubek-Platz 2
+        city: Vienna
+        country: Austria
+        url: https://img.univie.ac.at/en/
+  - name: Matthias Schlögl
+    orcid: 0000-0002-4357-523X
+    email: matthias.schloegl@geosphere.at
+    affiliations:
+      - name: GeoSphere Austria
+        department: Climate Impact Research
+        address: Hohe Warte 38
+        city: Vienna
+        country: Austria
+        url: https://geosphere.at/en
+      - name: BOKU University
+        department: Department of Landscape, Water and Infrastructure
+        address: Peter-Jordan-Strasse 82
+        city: Vienna
+        country: Austria
+        url: https://boku.ac.at/en/
+resources:
+- /usr/share/fonts/source-sans
+- /usr/share/fonts/source-code-pro
+format:
+  html:
+    css: fonts.css
+    mainfont: "Source Sans 3"
+    monofont: "Source Code Pro"
+    toc: true
+    toc-title: Contents
+    embed-resources: true
+tbl-colwidths: [10,60,10,10,10]
+theme:
+  light: flatly
+  dark: darkly
+---
+
+> Overview of climate indicators, including their abbreviations, descriptive definitions, groups (with "mixed" referring to indicators derived from multiple input variables from different groups), input parameters and temporal aggregation periods.
+
+| Index             | Description                                                                                | Group         | Parent Parameter | Temporal Aggregation |
+|-------------------|--------------------------------------------------------------------------------------------|---------------|------------------|----------------------|
+| `TGmean`          | Average daily mean temperature                                                             | temperature   | TG               | yea+sea              |
+| `TNmean`          | Average daily minimum temperature                                                          | temperature   | TN               | yea+sea              |
+| `TXmean`          | Average daily maximum temperature                                                          | temperature   | TX               | yea+sea              |
+| `FD`              | Number of frost days                                                                       | temperature   | TN               | yea+sea              |
+| `SU`              | Number of summer days                                                                      | temperature   | TX               | yea+sea              |
+| `HD`              | Number of hot days                                                                         | temperature   | TX               | yea+sea              |
+| `ID`              | Number of icing days                                                                       | temperature   | TX               | yea+sea              |
+| `TR`              | Number of tropical nights                                                                  | temperature   | TN               | yea+sea              |
+| `KYS`             | Kysely episodes                                                                            | temperature   | TX               | yea+sea              |
+| `GSL`             | Growing season length                                                                      | temperature   | TG               | yea                  |
+| `GSS`             | Growing season start                                                                       | temperature   | TG               | yea                  |
+| `spring_backlash` | Backlash onset / spring frost                                                              | temperature   | TG+TN            | yea                  |
+| `SBI`             | Spring backlash index                                                                      | temperature   | TG+TN            | yea                  |
+| `TXx`             | Maximum daily maximum temperature                                                          | temperature   | TX               | yea+sea              |
+| `TNx`             | Maximum daily minimum temperature                                                          | temperature   | TN               | yea+sea              |
+| `TXn`             | Minimum daily maximum temperature                                                          | temperature   | TX               | yea+sea              |
+| `TNn`             | Minimum daily minimum temperature                                                          | temperature   | TN               | yea+sea              |
+| `TN10p`           | Percentage of days when TN $<$ 10th percentile                                             | temperature   | TN               | yea+sea              |
+| `TX10p`           | Percentage of days when TX $<$ 10th percentile                                             | temperature   | TX               | yea+sea              |
+| `TN90p`           | Percentage of days when TN $>$ 90th percentile                                             | temperature   | TN               | yea+sea              |
+| `TX90p`           | Percentage of days when TX $>$ 90th percentile                                             | temperature   | TX               | yea+sea              |
+| `CFD`             | Consecutive frost days                                                                     | temperature   | TN               | yea+sea              |
+| `CSU`             | Consecutive summer days                                                                    | temperature   | TX               | yea+sea              |
+| `WSDI`            | Warm spell duration index                                                                  | temperature   | TX               | yea+sea              |
+| `CSDI`            | Cold spell duration index                                                                  | temperature   | TN               | yea+sea              |
+| `HSF`             | Hot spell frequency                                                                        | temperature   | TX               | yea+sea              |
+| `CSF`             | Cold spell frequency                                                                       | temperature   | TG               | yea+sea              |
+| `CE`              | Cold episodes                                                                              | temperature   | TX               | yea+sea              |
+| `EID`             | Extreme ice days                                                                           | temperature   | TN+TX            | yea+sea              |
+| `TPD`             | Thaw period days                                                                           | temperature   | TG               | yea+sea              |
+| `FTD`             | Freeze-thaw days                                                                           | temperature   | TN+TX            | yea+sea              |
+| `FTD2`            | Freeze-thaw days                                                                           | temperature   | TN+TX            | yea+sea              |
+| `continentality`  | Continentality                                                                             | temperature   | TG               | yea                  |
+| `GDD0`            | Growing degree days above 0 $^\circ$C                                                      | temperature   | TG               | yea+sea              |
+| `GDD5`            | Growing degree days above 5 $^\circ$C                                                      | temperature   | TG               | yea+sea              |
+| `GDD10`           | Growing degree days above 10 $^\circ$C                                                     | temperature   | TG               | yea+sea              |
+| `DTR`             | Daily temperature range                                                                    | temperature   | TN+TX            | yea+sea              |
+| `ETR`             | Extreme temperature range                                                                  | temperature   | TN+TX            | yea+sea              |
+| `PRCPTOT`         | Total precipitation accumulation                                                           | precipitation | RR               | yea+sea              |
+| `Rx1day`          | Maximum 1-day precipitation                                                                | precipitation | RR               | yea+sea              |
+| `Rx5day`          | Maximum consecutive 5-day precipitation                                                    | precipitation | RR               | yea+sea              |
+| `RR90pct`         | 90th percentile of rainday amounts                                                         | precipitation | RR               | yea+sea              |
+| `RR95pct`         | 95th percentile of rainday amounts                                                         | precipitation | RR               | yea+sea              |
+| `RRmean`          | Mean precipitation                                                                         | precipitation | RR               | yea+sea              |
+| `SDII`            | Simple precipitation intensity index                                                       | precipitation | RR               | yea+sea              |
+| `R10mm`           | Count of days when PRCP $\ge$ 10mm                                                         | precipitation | RR               | yea+sea              |
+| `R20mm`           | Count of days when PRCP $\ge$ 20mm                                                         | precipitation | RR               | yea+sea              |
+| `R30mm`           | Count of days when PRCP $\ge$ 30mm                                                         | precipitation | RR               | yea+sea              |
+| `R40mm`           | Count of days when PRCP $\ge$ 40mm                                                         | precipitation | RR               | yea+sea              |
+| `R50mm`           | Count of days when PRCP $\ge$ 50mm                                                         | precipitation | RR               | yea+sea              |
+| `CDD`             | Consecutive dry days                                                                       | precipitation | RR               | yea+sea              |
+| `CWD`             | Consecutive wet days                                                                       | precipitation | RR               | yea+sea              |
+| `Rsum30min`       | Minimum of precipitation sums within a moving 30 day window                                | precipitation | RR               | yea+sea              |
+| `Rsum30max`       | Maximum of precipitation sums within a moving 30 day window                                | precipitation | RR               | yea+sea              |
+| `R75p`            | Precipitation on moderate wet days                                                         | precipitation | RR               | yea+sea              |
+| `R90p`            | Precipitation on wet days                                                                  | precipitation | RR               | yea+sea              |
+| `R95p`            | Precipitation on very wet days                                                             | precipitation | RR               | yea+sea              |
+| `R99p`            | Precipitation on extremely wet days                                                        | precipitation | RR               | yea+sea              |
+| `R90pTOT`         | Contribution to total precipitation from wet days                                          | precipitation | RR               | yea+sea              |
+| `R95pTOT`         | Contribution to total precipitation from very wet days                                     | precipitation | RR               | yea+sea              |
+| `R99pTOT`         | Contribution to total precipitation from extremely wet days                                | precipitation | RR               | yea+sea              |
+| `API07_Q95`       | 0.95 quantile of antecedent precipitation index (k=7;p=0.9)                                | precipitation | RR               | yea+sea              |
+| `API14_Q95`       | 0.95 quantile of antecedent precipitation index (k=14;p=0.9)                               | precipitation | RR               | yea+sea              |
+| `API28_Q95`       | 0.95 quantile of antecedent precipitation index (k=28;p=0.9)                               | precipitation | RR               | yea+sea              |
+| `PCI_Q95`         | 0.95 quantile of precipitation concentration index                                         | precipitation | RR               | yea+sea              |
+| `SHMI`             | Summer heat-moisture index                                                                | mixed         | RR+TG            | yea                  |
+| `SAmean`           | Absolute sunshine duration                                                                | radiation     | SA               | yea+sea              |
+| `SRmean`           | Relative sunshine duration                                                                | radiation     | SR               | yea+sea              |
+| `ET0mean`          | Mean reference evapotranspiration                                                         | humidity      | ET0              | yea+sea              |
+| `ET0_Qcold`       | Mean PET in coldest quarter                                                                | mixed         | ET0+TG           | yea                  |
+| `ET0_Qdry`        | Mean monthly PET in driest quarter                                                         | mixed         | ET0+RR           | yea                  |
+| `ET0_Qwarm`       | Mean monthly PET in warmest quarter                                                        | mixed         | ET0+TG           | yea                  |
+| `ET0_Qwet`        | Mean monthly PET in wettest quarter                                                        | mixed         | ET0+RR           | yea                  |
+| `ET0_seasonality` | Mean monthly variabiity in PET                                                             | humidity      | ET0              | yea+sea              |
+| `SPEI30mean`       | Mean of Standardized Precipitation Evapotranspiration Index (30 days)                     | humidity      | SPEI30           | yea+sea              |
+| `SPEI90mean`       | Mean of Standardized Precipitation Evapotranspiration Index (90 days)                     | humidity      | SPEI90           | yea+sea              |
+| `SPEI365mean`      | Mean of Standardized Precipitation Evapotranspiration Index (365 days)                    | humidity      | SPEI365          | yea+sea              |
+| `SPEI90_th-2`     | Days with extreme drought                                                                  | humidity      | SPEI90           | yea+sea              |
+| `SPEI90_th-1`     | Days with moderate drought                                                                 | humidity      | SPEI90           | yea+sea              |
+| `SPEI90_th+2`     | Days with extreme humid conditions                                                         | humidity      | SPEI90           | yea+sea              |
+| `SPEI90_th+1`     | Days with moderate humid conditions                                                        | humidity      | SPEI90           | yea+sea              |
+| `HS_Q95`          | 0.95 quantile of total surface snow thickness                                              | snow          | snow_depth       | yea+sea              |
+| `HSfr_Q95`        | 0.95 quantile of fresh surface snow thickness                                              | snow          | snow_depth_fresh | yea+sea              |
+| `SWE_Q95`         | 0.95 quantile of total snow water equivalent                                               | snow          | swe_tot          | yea+sea              |
+| `SWEfr_Q95`       | 0.95 quantile of fresh snow water equivalent                                               | snow          | swe_fresh        | yea+sea              |
+| `NSD_72h`         | Maximum 72h fresh snow                                                                     | snow          | snow_depth_fresh | yea+sea              |
+| `SCD01`            | Snow cover duration above 1 cm                                                            | snow          | snow_depth       | yea+sea              |
+| `SCD10`            | Snow cover duration above 10 cm                                                           | snow          | snow_depth       | yea+sea              |
+| `runoff_Q95`      | 0.95 quantile of total surface runoff from snowmelt and rain                               | runoff        | runoff           | yea+sea              |
+| `snowmelt_Q95`    | 0.95 quantile of daily snowmelt                                                            | snow          | snowmelt         | yea+sea              |
+| `BIO01`            | Annual mean temperature                                                                   | temperature   | TG               | yea                  |
+| `BIO02`            | Mean diurnal range                                                                        | temperature   | TN+TX            | yea                  |
+| `BIO03`            | Isothermality                                                                             | temperature   | TN+TX            | yea                  |
+| `BIO04`            | Temperature seasonality                                                                   | temperature   | TG               | yea                  |
+| `BIO05`            | Max temperature of warmest month                                                          | temperature   | TX               | yea                  |
+| `BIO06`            | Min temperature of coldest month                                                          | temperature   | TN               | yea                  |
+| `BIO07`            | Temperature annual range                                                                  | temperature   | TN+TX            | yea                  |
+| `BIO08`            | Mean temperature of wettest quarter                                                       | mixed         | RR+TG            | yea                  |
+| `BIO09`            | Mean temperature of driest quarter                                                        | mixed         | RR+TG            | yea                  |
+| `BIO10`            | Mean temperature of warmest quarter                                                       | temperature   | TG               | yea                  |
+| `BIO11`            | Mean temperature of coldest quarter                                                       | temperature   | TG               | yea                  |
+| `BIO12`            | Annual precipitation                                                                      | precipitation | RR               | yea                  |
+| `BIO13`            | Precipitation of wettest month                                                            | precipitation | RR               | yea                  |
+| `BIO14`            | Precipitation of driest month                                                             | precipitation | RR               | yea                  |
+| `BIO15`            | Precipitation seasonality                                                                 | precipitation | RR               | yea                  |
+| `BIO16`            | Precipitation of wettest quarter                                                          | precipitation | RR               | yea                  |
+| `BIO17`            | Precipitation of driest quarter                                                           | precipitation | RR               | yea                  |
+| `BIO18`            | Precipitation of warmest quarter                                                          | mixed         | RR+TG            | yea                  |
+| `BIO19`            | Precipitation of coldest quarter                                                          | mixed         | RR+TG            | yea                  |
+| `HN1_SD`          | Number of days with fresh snow greater than 1 cm as calculated from changes in snow depth  | snow          | snow_depth_fresh | yea                  |
+| `HN5_SD`          | Number of days with fresh snow greater than 5 cm as calculated from changes in snow depth  | snow          | snow_depth_fresh | yea                  |
+| `HN10_SD`         | Number of days with fresh snow greater than 10 cm as calculated from changes in snow depth | snow          | snow_depth_fresh | yea                  |
+| `HN20_SD`         | Number of days with fresh snow greater than 20 cm as calculated from changes in snow depth | snow          | snow_depth_fresh | yea                  |
+| `CDDcold18.3`      | Cooling Degree Days                                                                       | temperature   | TG               | yea                  |
+| `HDDheat20`        | Heating Degree Days                                                                       | temperature   | TG               | yea                  |
+| `RR_summerhalf`   | Accumulated precipitation during the summer half-year                                      | precipitation | RR               | yea                  |
+| `RR_winterhalf`   | Accumulated precipitation during the winter half-year                                      | precipitation | RR               | yea                  |
