@@ -1,0 +1,957 @@
+---
+title: "Definitions of climate indicators"
+author:
+  - name: Sebastian Lehner
+    orcid: 0000-0002-7562-8172
+    email: sebastian.lehner@geosphere.at
+    affiliations:
+      - name: GeoSphere Austria
+        department: Climate Impact Research
+        address: Hohe Warte 38
+        city: Vienna
+        country: Austria
+        url: https://geosphere.at/en
+      - name: University of Vienna
+        department: Department of Meteorology and Geophysics
+        address: Josef-Holaubek-Platz 2
+        city: Vienna
+        country: Austria
+        url: https://img.univie.ac.at/en/
+  - name: Matthias Schlögl
+    orcid: 0000-0002-4357-523X
+    email: matthias.schloegl@geosphere.at
+    affiliations:
+      - name: GeoSphere Austria
+        department: Climate Impact Research
+        address: Hohe Warte 38
+        city: Vienna
+        country: Austria
+        url: https://geosphere.at/en
+      - name: BOKU University
+        department: Department of Landscape, Water and Infrastructure
+        address: Peter-Jordan-Strasse 82
+        city: Vienna
+        country: Austria
+        url: https://boku.ac.at/en/
+resources:
+- /usr/share/fonts/source-sans
+- /usr/share/fonts/source-code-pro
+format:
+  html:
+    css: fonts.css
+    mainfont: "Source Sans 3"
+    monofont: "Source Code Pro"
+    toc: true
+    toc-depth: 2
+    toc-title: Contents
+    embed-resources: true
+tbl-colwidths: [10,60,10,10,10]
+theme:
+  light: flatly
+  dark: darkly
+---
+
+::: {.content-hidden when-format="latex"}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+:::
+
+> This section provides definitions for all climate indicators. Here,
+$x$ represents the data points (parameter), $t$ corresponds to a daily timesteps
+for all days within the respective time period (annual or seasonal, etc.), and $n$ denotes
+the number of days within the same time period. To simplify the presentation, all climate
+indicators are calculated on a per-gridcell basis, hence the spatial dimension is
+excluded in the definitions.
+
+
+## Temperature-based climate indicators
+
+The input variables used are \texttt{TX} for daily maximum temperature, \texttt{TN} for daily minimum
+temperature and \texttt{TG} for daily average temperature, all in degrees Celsius.
+
+
+### `TGmean`:
+The average daily mean temperature, calculated as:
+$$
+    f(\text{TG}) = \frac{1}{n} \sum_{t=1}^n \text{TG}_t
+$$ {#eq-tgmean}
+
+
+### `TNmean`:
+The average daily minimum temperature, calculated as:
+$$
+    f(\text{TN}) = \frac{1}{n} \sum_{t=1}^n \text{TN}_t
+$$ {#eq-tnmean}
+
+
+### `TXmean`:
+The average daily maximum temperature, calculated as:
+$$
+    f(\text{TX}) = \frac{1}{n} \sum_{t=1}^n \text{TX}_t
+$$ {#eq-txmean}
+
+
+### `FD`:
+The number of frost days, calculated as:
+$$
+    f(\text{TN}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TN}_t < 0 \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-fd}
+
+
+{{< pagebreak >}}
+
+
+### `SU`:
+The number of summer days, calculated as:
+$$
+    f(\text{TX}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TX}_t > 25 \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-su}
+
+
+### `HD`:
+The number of hot days, calculated as:
+$$
+    f(\text{TX}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TX}_t > 30 \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-hd}
+
+
+### `ID`:
+The number of icing days, calculated as:
+$$
+    f(\text{TX}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TX}_t < 0 \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-id}
+
+
+### `TR`:
+The number of tropical nights, calculated as:
+$$
+    f(\text{TN}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TN}_t > 20 \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-tr}
+
+
+### `KYS`:
+Kysely days are defined as the count of days in periods of at least 3 consecutive days where (1) $\text{TX} \geq 30$ °C
+on the first day, (2) $\text{TX} \geq 25$ °C on all subsequent days, and (3) and the average maximum temperature across all days in the period fulfills $\text{TX} \geq 30$ °C.
+
+
+### `GSS`:
+The day of the year corresponding to the first day of a four-day period during which $\text{TG} > 5$ °C on all
+days in the window.
+
+
+### `GSL`:
+The number of days between the start and end of the growing season. The growing season begins with a 6-day period where $\text{TG} > 5$ °C on all days in the window and ends with a
+6-day period where $\text{TG} < 5$ °C on all days.
+
+
+### `spring_backlash`:
+The number of events counted as days where $\text{TN}_t < -2$ °C for all days $t$ after \texttt{GSS} and up to day 180 of the year. This is associated with spring frost. 
+
+
+### `SBI`:
+The spring backlash index represents the growing degree days above 5 °C (see \texttt{GDD5}) for all days $t$ occurring after \texttt{GSS} and up to the last spring backlash event. 
+
+
+### `TXx`:
+The maximum daily maximum temperature, calculated as:
+$$
+    f(\text{TX}) =  \max \left( \text{TX} \right)
+$$ {#eq-txx}
+
+
+### `TNx`:
+The maximum daily minimum temperature, calculated as:
+$$
+    f(\text{TN}) =  \max \left( \text{TN} \right)
+$$ {#eq-tnx}
+
+
+### `TXn`:
+The minimum daily maximum temperature, calculated as:
+$$
+    f(\text{TX}) =  \min \left( \text{TX} \right)
+$$ {#eq-txn}
+
+
+### `TNn`:
+The minimum daily minimum temperature, calculated as:
+$$
+    f(\text{TN}) =  \min \left( \text{TN} \right)
+$$ {#eq-tnn}
+
+
+### `TN10p`:
+This indicator represents the percentage of days where the daily minimum temperature ($\text{TN}_{t}$) is below the 10th percentile ($\text{TN}_{10p}$) of the reference period (1991--2020). It is calculated as:
+
+$$
+    f(\text{TN}) = \frac{100 [\%]}{n_{d}} \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TN}_t < \text{TN}_{10p} \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-tn10p}
+where $n_{d}$ is the number of days in the period under consideration (e.g. annual or
+seasonal). For the annual aggregation, $\text{TN}_{10p}$ is derived from all data in the reference period. For seasonal aggregation, $\text{TN}_{10p}$ is calculated using data specific to each season within the reference period.
+
+
+### `TX10p`:
+Defined similarly to @eq-tn10p, but with $\text{TX}$ instead of $\text{TN}$:
+$$
+    f(\text{TX}) = \frac{100 [\%]}{n_{d}} \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TX}_t < \text{TX}_{10p} \\
+        0, & \text{otherwise}.
+    \end{cases}
+$$ {#eq-tx10p}
+
+
+### `TN90p`:
+Defined similarly to @eq-tn10p, but with $\text{TN}_t > \text{TN}_{90p}$:
+$$
+    f(\text{TN}) = \frac{100 [\%]}{n_{d}} \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TN}_t > \text{TN}_{90p} \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-tn90p}
+
+
+### `TX90p`:
+Defined similarly to @eq-tn10p, but for $\text{TX}$ instead of of $\text{TN}$ and $\text{TX}_t > \text{TX}_{90p}$:
+$$
+    f(\text{TX}) = \frac{100 [\%]}{n_{d}} \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{TX}_t > \text{TX}_{90p} \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-tx90p}
+
+
+### `CFD`:
+Consecutive frost days, defined as the maximum length of consecutive periods where $\text{TN} < 0$ °C.
+
+
+### `CSU`:
+Consecutive summer days, defined as the maximum length of consecutive periods where $\text{TX} > 25$ °C.
+
+
+### `WSDI`:
+The warm spell duration index reflects the number of days within warm spells. Warm spells are defined as consecutive periods of at
+least 6 days where $\text{TX} > \text{TX}_{90p}$. Here, $\text{TX}_{90p}$ is the 90th percentile of
+$\text{TX}$ based on the reference period 1991--2020. 
+
+
+### `CSDI`:
+The cold spell duration index reflects the number of days within cold spells. Cold spells are defined as consecutive periods of at
+least 6 days where $\text{TN} < \text{TN}_{10p}$. Here, $\text{TN}_{10p}$ is the 10th percentile of
+$\text{TN}$ based on the reference period 1991--2020. 
+
+
+### `HSF`:
+The hot spell frequency denotes the number of hot spells as defined in the \texttt{WSDI} indicator.
+
+
+### `CSF`:
+The cold spell frequency denotes the number of cold spells as defined as in the \texttt{CSDI} indicator.
+
+
+### `CE`:
+Cold episodes reflect the number of cold spells, defined as continuous periods of at least 5 days where $\text{TX} < 0$ °C.
+
+
+### `EID`:
+The number of days where $\text{TN} < -7$ °C and $\text{TX} < 0$ °C.
+
+
+### `TPD`:
+The number of days where $\text{TG} > 1.5$ °C.
+
+
+### `FTD`:
+The number of days where $\text{TN} < 0$ °C and $\text{TX} > 0$ °C.
+
+
+### `FTD2`:
+The number of days where $\text{TN} < -2$ °C and $\text{TX} > 2$ °C.
+
+
+### `continentality`:
+The difference between the maximum and minimum average monthly temperature:
+$$
+    f(\text{TG}) =  \max (\text{TG}_{mon}) - \min (\text{TG}_{mon})
+$$ {#eq-continentality}
+where $\text{TG}_{mon}$ represents the average monthly $\text{TG}$.
+
+
+### `GDD0`:
+The growing degree days, defined as the sum of daily temperature differences above a threshold of 0 °C:
+
+$$
+    f(\text{TG}) = \sum_{t=1}^n \begin{cases}
+        \text{TG}_t - c, & \text{if } \text{TG}_t > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-gdd0}
+where $c$ is a constant with value $0$ °C.
+
+
+### `GDD5`:
+Similar to @eq-gdd0, but with a threshold of $c = 5$ °C.
+
+
+### `GDD10`:
+Similar to @eq-gdd0, but with a threshold of $c = 10$ °C.
+
+
+### `DTR`:
+The average daily temperature range, calculated as:
+$$
+    f(\text{TX}, \text{TN}) = \frac{1}{n_{d}} \sum_{t=1}^n \text{TX}_t - \text{TN}_t
+$$ {#eq-dtr}
+where $n_{d}$ is the number of days in the period under consideration (e.g. annual or seasonal).
+
+
+### `ETR`:
+The extreme temperature range is defined as the difference between the maximum daily maximum temperature (\texttt{TXx}) and the minimum daily minimum temperature (\texttt{TNn}):
+$$
+    f(\text{TX}, \text{TN}) = \text{TX}x - \text{TN}n
+$$ {#eq-etr}
+
+
+{{< pagebreak >}}
+
+
+### `BIO01`:
+First first bioclimatic indicator, representing the mean temperature calculated specifically for an annual aggregation period. It is equivalent to the general mean temperature as defined in @eq-tgmean.
+
+
+### `BIO02`:
+The mean diurnal temperature range is calculated as the average difference between daily maximum temperature ($\text{TX}_t$) and daily minimum temperature ($\text{TN}_t$):
+$$
+    f(\text{TX},\text{TN}) = \frac{1}{n} \sum_{t=1}^n \left( \text{TX}_t - \text{TN}_t \right)
+$$ {#eq-bio02}
+
+
+### `BIO03`:
+The ratio of the mean diurnal temperature range (\texttt{BIO02}) and the annual temperature range (\texttt{BIO07}):
+$$
+    f(\text{TX},\text{TN}) = \frac{\mathrm{BIO02}}{\mathrm{BIO07}}
+$$ {#eq-bio03}
+
+
+### `BIO04`:
+Temperature seasonality is defined as the annual coefficient of variation in temperature, expressed as percentage:
+$$
+    f(\text{TG}) = 100 [\%] \cdot \frac{\sigma_{\text{TG}}}{\mu_{\text{TG}}}
+$$ {#eq-bio04}
+where $\sigma_{\text{TG}}$ is the standard deviation daily mean temperature ($\text{TG}$) per year, and $\mu_{\text{TG}}$ the mean of $\text{TG}$ for the same year.
+
+
+### `BIO05`:
+The maximum daily maximum temperature (see @eq-txx) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in \texttt{xclim} but differs from the Bioclim definition, which refers to the maximum temperature \emph{of the warmest month}.
+
+
+### `BIO06`:
+The maximum daily maximum temperature (see @eq-tnn) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in \texttt{xclim} but differs from the Bioclim definition, which refers to the minimum temperature \emph{of the coldest month}.
+
+
+### `BIO07`:
+The difference between the maximum daily maximum temperature ($\text{TX}x$) and the minimum daily minimum temperature ($\text{TN}n$).
+This is equivalent to @eq-etr for an annual aggregation period.
+
+
+{{< pagebreak >}}
+
+
+### `BIO10`:
+The mean temperature for the warmest quarter, calculated as:
+$$
+    f(\text{TG}) = \frac{1}{n} \sum_{j=1}^n \text{TG}_j
+$$ {#eq-bio10}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
+
+
+### `BIO11`:
+The mean temperature for the coldest quarter, calculated as:
+$$
+    f(\text{TG}) = \frac{1}{n} \sum_{j=1}^n \text{TG}_j
+$$ {#eq-bio11}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmin (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
+
+
+### `CDDcold18.3`:
+The sum of daily temperature differences above a threshold of $18.3$ °C, calculated as:
+$$
+    f(\text{TG}) = \sum_{t=1}^n \begin{cases}
+        \text{TG}_t - c, & \text{if } \text{TG}_t > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-cddcold183}
+where $c$ is a constant with value $18.3$ °C.
+
+
+### `HDDheat20`:
+The sum of daily temperature differences below a threshold of $20$ °C, calculated as:
+$$
+    f(\text{TG}) = \sum_{t=1}^n \begin{cases}
+        c - \text{TG}_t, & \text{if } \text{TG}_t < c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-hddhead20}
+where $c$ is a constant with value $20$ °C.
+
+
+{{< pagebreak >}}
+
+
+## Precipitation-based climate indicators
+
+
+The input variable used is \texttt{RR} for daily precipitation totals in mm
+(corresponding to $\text{kg} \, \text{m}^{-2} \, \text{day}^{-1}$).
+Wet days are defined as days where $\text{RR} > 1$ mm.
+
+### `PRCPTOT`:
+The total precipitation accumulated over a specified period, calculated as:
+$$
+    f(\text{RR}) = \sum_{t=1}^n \text{RR}_t
+$$ {#eq-prcptot}
+
+
+### `Rx1day`:
+The maximum daily precipitation within a specified period, calculated as:
+$$
+    f(\text{RR}) = \max ( \text{RR}_t )
+$$ {#eq-rx1day}
+
+
+### `Rx5day`:
+The maximum 5-day precipitation within a specified period, calculated as:
+$$
+    f(\text{RR}) = \max ( \text{RR}_{5t} )
+$$ {#eq-rx5day}
+where $\text{RR}_{5t}$ represents the total precipitation accumulated within a 5-day rolling window.
+
+
+### `RR90pct`:
+The 90th percentile of daily precipitation totals for wet days ($\text{RR}_{wet,90p}$) within a specified period:
+$$
+    f(\text{RR}) = \text{RR}_{wet,90p})
+$$ {#eq-rr90pct}
+
+
+### `RR95pct`:
+Similar to @eq-rr90pct, but for the 95th percentile.
+
+
+### `RRmean`:
+The average daily precipitation within a specified period, calculated as:
+$$
+    f(\text{RR}) = \frac{1}{n} \sum_{t=1}^n \text{RR}_t
+$$ {#eq-rrmean}
+
+
+{{< pagebreak >}}
+
+
+### `SDII`:
+The simple daily precipitation intensity index is defined as the average precipitation intensity on wet days, calculated as:
+$$
+    f(\text{RR}) = \frac{1}{n_{wet}} \sum_{t=1}^{n_{\text{wet}}} \text{RR}_{t,wet}
+$$ {#eq-sdii}
+where $n_{wet}$ is the number of wet days in the period under consideration, and $\text{RR}_{t,wet}$ represents the precipitation totals on wet days.
+
+
+### `R10mm`:
+The count of moderate wet days, calculated as:
+$$
+    f(\text{RR}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{RR}_t > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-r10mm}
+where $c = 10$ mm.
+
+
+### `R20mm`:
+Similar to @eq-r10mm, but with $c = 20$ mm.
+
+
+### `R30mm`:
+Similar to @eq-r10mm, but with $c = 30$ mm.
+
+
+### `R40mm`:
+Similar to @eq-r10mm, but with $c = 40$ mm.
+
+
+### `R50mm`:
+Similar to @eq-r10mm, but with $c = 50$ mm.
+
+
+### `CDD`:
+Consecutive dry days, defined as the number of days in the longest consecutive period where daily precipitation is less than 1 mm.
+
+
+### `CWD`:
+Consecutive wet days, defined as the number of days in the longest consecutive period where daily precipitation exceeds 1 mm.
+
+
+{{< pagebreak >}}
+
+
+### `Rsum30min`:
+The minimum accumulated precipitation within any 30-day rolling window over a specified period, calculated as:
+$$
+    f(\text{RR}) = \min (\sum_t^n \text{RR}_{30t} )
+$$ {#eq-rsum30min}
+where $\text{RR}_{30t}$ denotes the precipitation totals accumulated within a rolling 30-day window.
+
+
+### `Rsum30max`:
+The maximum accumulated precipitation over any rolling 30-day window, calculated as:
+$$
+    f(\text{RR}) = \max (\sum_t^n \text{RR}_{30t} )
+$$ {#eq-rsum30max}
+where $\text{RR}_{30t}$ represents the total precipitation accumulated within a 30-day rolling window.
+
+
+### `R75p`:
+The total precipitation accumulated on moderately wet days within a specified period, which are defined as days with daily precipitation exceeding the 75th percentile of wet day precipitation during the reference period (1991–2020). The indicator is calculated as:
+$$
+    f(\text{RR}) = \sum_{t=1}^n \begin{cases}
+        \text{RR}_t, & \text{if } \text{RR}_t > \text{RR}_{wet,75p} \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-r75p}
+where $\text{RR}_{wet,75p}$ is the 75th percentile of $\text{RR}_{wet}$ for all wet days during the reference period 1991--2020.
+
+
+### `R90p`:
+Similar to @eq-r75p, but for the 90th percentile.
+
+
+### `R95p`:
+Similar to @eq-r75p, but for the 95th percentile.
+
+
+### `R99p`:
+Similar to @eq-r75p, but for the 99th percentile.
+
+
+### `R90pTOT`:
+The percentage contribution of precipitation totals from $\text{RR} > \text{RR}_{wet,90p}$ within a specified period, calculated as:
+$$
+    f(\text{RR}) = \frac{100 [\%]}{\sum_{t=1}^n \text{RR}_t} \sum_{t=1}^n \begin{cases}
+        \text{RR}_t, & \text{if } \text{RR}_t > \text{RR}_{wet,90p} \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-r90ptot}
+where $\text{RR}_{wet,90p}$ is the 90th percentile of $\text{RR}_{wet}$ for all wet days during the reference period 1991--2020.
+
+
+### `R95pTOT`:
+Similar to @eq-r90ptot, but for the 95th percentile.
+
+
+### `R99pTOT`:
+Similar to @eq-r90ptot, but for the 99th percentile.
+
+
+### `API07_Q95`:
+This temporally aggregated version of the antecedent precipitation index (API) represents the 95th percentile of a weighted sum of daily precipitation totals
+over a specified time window with a length of $k$ days and a weighting exponent $p$. The basic API is calculated as:
+$$
+    f(\text{RR}_t) = \sum_{i=t}^{t-k} \text{RR}_{i} \cdot p^i
+$$ {#eq-api07q95}
+where $k=7$ and $p=0.935$. This indicator is
+the 95th percentile of that.
+
+
+### `API14_Q95`:
+Similar to @eq-api07q95, but with $k=14$.
+
+
+### `API28_Q95`:
+Similar to @eq-api07q95, but with $k=28$.
+
+
+### `PCI_Q95`:
+This temporally aggregated version of the precipitation concentration index (PCI) represents the 95th percentile of the PCI, which quantifies the concentration of monthly precipitation totals within a given period. The PCI is defined as follows:
+$$
+    f(\text{RR}) = \frac{\sum_j \left( \text{RR}_{mon}^2  \right)}{\left( \sum_{i=1}^n \text{RR}_{t} \right)^2 } 
+$$ {#eq-pci}
+where $\text{RR}_{mon}$ denotes the monthly accumulated precipitation totals, and $j$ represents all
+months in the specified period (e.g. months within
+a season or year).
+
+
+### `BIO12`:
+This indicator represents the total annual precipitation, calculated as the sum of daily precipitation totals over an entire year. It is equivalent to @eq-prcptot, with the aggregation specifically applied to an annual time scale.
+
+
+### `BIO13`:
+The maximum daily precipitation within a year:
+$$
+    f(\text{RR}) = \max \text{RR}_t
+$$ {#eq-bio13}
+
+
+{{< pagebreak >}}
+
+
+### `BIO14`:
+The minimum daily precipitation within a year:
+$$
+    f(\text{RR}) = \min \text{RR}_t
+$$ {#eq-bio14}
+
+
+### `BIO15`:
+The annual coefficient of variation of precipitation, expressed as a percentage:
+$$
+    f(\text{RR}) = 100 [\%] \cdot \frac{\sigma_{\text{RR}}}{\mu_{\text{RR}}}
+$$ {#eq-bio15}
+where $\sigma_{\text{RR}}$ is the standard deviation of $\text{RR}$ per year, and $\mu_{\text{RR}}$ the mean of $\text{RR}$ for the same year.
+
+
+### `BIO16`:
+The total precipitation during the wettest season of the year, calculated as:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-bio16}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{RR}_{sea})
+$$
+with $\text{RR}_{sea}$ denoting the total accumulated precipitation for each season.
+
+
+### `BIO17`:
+The total precipitation during the dryest season of the year, calculated as:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-bio17}
+where $j$ is limited to the days inside the season where
+$$
+    \text{season} = \argmin (\text{RR}_{sea})
+$$
+where $\text{RR}_{sea}$ is the seasonal total accumulated precipitation.
+
+
+### `RR_summerhalf`:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-rrsh}
+where $j$ is limited to the days within the months April to September.
+
+
+### `RR_winterhalf`:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-rrwh}
+where $j$ is limited to the days within the months October to March.
+
+
+## Radiation-based climate indicators
+
+
+These indicators utilize sunshine duration as input variables to quantify solar radiation. Specifically, the two key input variables used are \texttt{SA} for daily absolute sunshine duration in hours,
+and \texttt{SR} for daily relative sunshine duration, expressed as a fraction.
+
+
+### `SAmean`:
+The mean daily absolute sunshine duration over a specified period:
+$$
+    f(\text{SA}) = \frac{1}{n} \sum_{t=1}^n \text{SA}_t
+$$ {#eq-samean}
+
+
+### `SRmean`:
+The mean daily relative sunshine duration over a specified period:
+$$
+    f(\text{SR}) = \frac{1}{n} \sum_{t=1}^n \text{SR}_t
+$$ {#eq-srmean}
+
+
+
+## Humidity-based climate indicators
+
+
+The input variables used are \texttt{ET0} for daily reference evapotranspiration in mm,
+and \texttt{SPEI} as the Standardized Precipitation Evaporation Index \cite{vicente-serrano_multiscalar_2010} for 30, 90 and 365 days
+(\texttt{SPEI30}, \texttt{SPEI90} and \texttt{SPEI365}), respectively.
+
+
+### `ET0mean`:
+The the average daily reference evapotranspiration over a specified period, calculated as:
+$$
+    f(\text{ET}0) = \frac{1}{n} \sum_{t=1}^n \text{ET}0_t
+$$ {#eq-et0mean}
+
+
+### `ET0_seasonality`:
+The seasonality of $\text{ET}0$ quantifies the variability of reference evapotranspiration across months within a specified period. It is calculated in two steps:
+
+$$
+    f(\text{ET}0_{mon}) = \sqrt{\frac{1}{n_{mon}} \sum_{t=1}^{n_{mon}} \left( \text{ET}0_t - \overline{\text{ET}0_{mon}} \right)^2} = \sigma_{\text{ET}0,mon}
+$$ {#eq-et0mon}
+where $\overline{\text{ET}0_{mon}}$ is the monthly mean, and $\sigma_{\text{ET}0,mon}$ is the monthly standard deviation of $\text{ET}0$.
+
+The final indicator is derived by averaging the monthly standard deviations over all months in the aggregation period:
+$$
+    f(\text{ET}0) = \frac{1}{n_{months}} \sum_{j=1}^{n_{months}} \sigma_{\text{ET}0,j}
+$$ {#eq-sea}
+
+
+### `SPEI30mean`:
+The average value of the SPEI calculated over a 30-day period within a specified time frame: 
+$$
+    f(\text{SPEI}30) = \frac{1}{n} \sum_{t=1}^n \text{SPEI}30_t
+$$ {#eq-spei30mean}
+
+
+### `SPEI90mean`:
+Similar to @eq-spei30mean, but with \texttt{SPEI90} instead of \texttt{SPEI30}.
+
+
+### `SPEI365mean`:
+Similar to @eq-spei30mean, but with \texttt{SPEI365} instead of \texttt{SPEI30}.
+
+
+### `SPEI90_th-2`:
+The count of days within a specified period where the SPEI for a 90-day window falls below a threshold of $-2$:
+
+$$
+    f(\text{SPEI}90) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{SPEI}90 < c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-spei90th_neg}
+where $c = -2$ mm.
+
+### `SPEI90_th-1`:
+Similar to @eq-spei90th_neg, but with $c=-1$.
+
+### `SPEI90_th+1`:
+The count of days within a specified period where the SPEI for a 90-day window exceeds a threshold of $1$:
+$$
+    f(\text{SPEI}90) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{SPEI}90 > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-spei90th_pos}
+where $c = 1$ mm.
+
+### `SPEI90_th+2`:
+Similar to @eq-spei90th_pos, but with $c=2$.
+
+
+{{< pagebreak >}}
+
+## Snow-based climate indicators
+
+
+The input variables are:
+
+- **SDE** - daily total height of snow (snow depth) in m,
+- **SF** - daily amount of fresh snow (snowfall) in m,
+- **SWE\_tot** - daily total snow water equivalent in $\text{kg}\,\text{m}^{-2}$,
+- **SWE\_fr** - daily fresh amount of available total snow water equivalent in $\text{kg}\,\text{m}^{-2}$,
+- **snowmelt** - daily amount of melted snow in $\text{kg}\text{m}^{-2}$,
+- **runoff** - daily total surface runoff from rain and snowmelt in m.
+
+
+### `HS_Q95`:
+The 95th percentile of $\texttt{SDE}$.
+
+### `HSfr_Q95`:
+The 95th percentile of $\texttt{SF}$.
+
+### `SWE_Q95`:
+The 95th percentile of $\texttt{SWE\_tot}$.
+
+### `SWEfr_Q95`:
+The 95th percentile of $\texttt{SWE\_fr}$.
+
+### `NSD_72h`:
+The maximum 3-day fresh snow depth (`new snow depth within 72 hours') within a specified period, calculated as:
+$$
+    f(\text{SF}) = \max ( \text{SF}_{3t} )
+$$ {#eq-nsd72h}
+where $\text{SF}_{3t}$ denotes the 3-day \texttt{SF}, calculated using a 3-day running window.
+
+
+### `SCD01`:
+The count of days within a specified period where the daily snow depth exceeds 1 cm, calculated as:
+$$
+    f(\text{SDE}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{SDE} > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-scd01}
+where $c = 1$ cm.
+
+
+### `SCD10`:
+Similar to @eq-scd01, but with $c=10$.
+
+
+{{< pagebreak >}}
+
+
+### `runoff_Q95`:
+The 95th percentile of \texttt{runoff}.
+
+
+### `snowmelt_Q95`:
+The 95th percentile of \texttt{snowmelt}.
+
+
+### `HN1_SD`:
+The count of days within a specified period where the daily fresh snow depth exceeds 1 cm, calculated as:
+$$
+    f(\text{SF}) = \sum_{t=1}^n \begin{cases}
+        1, & \text{if } \text{SF} > c \\
+        0, & \text{otherwise}.
+    \end{cases} 
+$$ {#eq-hn1sd}
+where $c = 1$ cm.
+
+### `HN5_SD`:
+Similar to @eq-hn1sd, but with $c=5$ cm.
+
+### `HN10_SD`:
+Similar to @eq-hn1sd, but with $c=10$ cm.
+
+### `HN20_SD`:
+Similar to @eq-hn1sd, but with $c=20$ cm.
+
+{{< pagebreak >}}
+
+## Climate indicators based on multiple input variables
+
+
+### `SHMI`:
+The summer heat moisture index is defined as the ratio of the maximum monthly average temperature ($\text{TG}_{mon}$) to the mean precipitation during summer months (June, July, August; $\text{RR}_{JJA}$), calculated as:
+$$
+    f(\text{TG},\text{RR}) = \frac{\max ( \text{TG}_{mon} )}{\text{RR}_{JJA}}
+$$ {#eq-shmi}
+
+
+### `ET0_Qcold`:
+The mean reference evapotranspiration in the coldest quarter, calculated as:
+$$
+    f(\text{ET}0) = \frac{1}{n} \sum_{j=1}^n \text{ET}0_j
+$$ {#eq-et0qcold}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmin (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
+
+
+### `ET0_Qdry`:
+The mean reference evapotranspiration in the driest quarter, calculated as:
+$$
+    f(\text{ET}0) = \frac{1}{n} \sum_{j=1}^n \text{ET}0_j
+$$ {#eq-et0qdry}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmin (\text{RR}_{sea})
+$$
+with $\text{RR}_{sea}$ denoting the seasonal total accumulated precipitation.
+
+
+### `ET0_Qwarm`:
+The mean reference evapotranspiration in the warmest quarter, calculated as:
+$$
+    f(\text{ET}0) = \frac{1}{n} \sum_{j=1}^n \text{ET}0_j
+$$ {#eq-et0qwarm}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
+
+
+{{< pagebreak >}}
+
+
+### `ET0_Qwet`:
+The mean reference evapotranspiration in the wettest quarter, calculated as:
+$$
+    f(\text{ET}0) = \frac{1}{n} \sum_{j=1}^n \text{ET}0_j
+$$ {#eq-et0qwet}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{RR}_{sea})
+$$
+with $\text{RR}_{sea}$ denoting the seasonal total accumulated precipitation.
+
+
+### `BIO08`:
+The mean temperature of the wettest quarter, calculated as:
+$$
+    f(\text{TG}) = \frac{1}{n} \sum_{j=1}^n \text{TG}_j
+$$ {#eq-bio08}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{RR}_{sea})
+$$
+with $\text{RR}_{sea}$ denoting the seasonal total accumulated precipitation.
+
+
+### `BIO09`:
+The mean temperature of the driest quarter, calculated as:
+$$
+    f(\text{TG}) = \frac{1}{n} \sum_{j=1}^n \text{TG}_j
+$$ {#eq-bio09}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmin (\text{RR}_{sea})
+$$
+with $\text{RR}_{sea}$ denoting the seasonal total accumulated precipitation.
+
+
+### `BIO18`:
+The total precipitation during the warmest quarter, calculated as:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-bio18}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmax (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
+
+
+### `BIO19`:
+The total precipitation during the coldest quarter, calculated as:
+$$
+    f(\text{RR}) = \sum_{j=1}^n \text{RR}_j
+$$ {#eq-bio19}
+where $j$ is limited to the days within the season where
+$$
+    \text{season} = \argmin (\text{TG}_{sea})
+$$
+with $\text{TG}_{sea}$ denoting the seasonal average temperature.
