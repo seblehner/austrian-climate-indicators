@@ -1,0 +1,15 @@
+pages:
+  image: rocker/verse:latest
+  before_script:
+    - bash ./scripts/setup_fonts.sh
+  script:
+    - quarto render doc/pages/overview_table.qmd
+    - quarto render doc/pages/indicator_definitions.qmd
+  after_script:
+    - mkdir -p public
+    - mv doc/pages/*.html public/
+    - mv doc/indices.csv public/
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - public/
