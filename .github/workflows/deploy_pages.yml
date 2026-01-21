@@ -36,7 +36,6 @@ jobs:
       run: |
         mkdir -p public
         mv doc/pages/*.html public/
-        mv doc/indices.csv public/
 
     - name: Upload artifacts
       id: upload
