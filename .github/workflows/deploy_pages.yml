@@ -1,0 +1,57 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: rocker/verse:latest
+
+    steps:
+    - name: Checkout repository
+      id: checkout
+      uses: actions/checkout@v4
+
+    - name: Setup fonts
+      id: setup
+      run: bash ./scripts/setup_fonts.sh
+
+    - name: Render Quarto pages
+      id: render
+      run: |
+        quarto render doc/pages/overview_table.qmd
+        quarto render doc/pages/indicator_definitions.qmd
+
+    - name: Prepare artifacts
+      run: |
+        mkdir -p public
+        mv doc/pages/*.html public/
+        mv doc/indices.csv public/
+
+    - name: Upload artifacts
+      id: upload
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: public/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub pages
+        id: deployment
+        uses: actions/deploy-pages@v4
