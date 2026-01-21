@@ -64,7 +64,8 @@ Different datasets are untested and may require adaptations due to a different i
 This performs the following checks:
 - Compare the actual output file counts in the output path versus the expected number depending on the years specified in the `config.toml`.
 - Test whether the minimum output file size exceeds a threshold of 100 KB.
-- Note: This does not validate data values; it only checks presence and size.
+- Check for files that only contain NaN values.
+- Note: This does not validate data values in any other ways except for the blank NaN check.
 
 
 ### Aggregation and evaluation
@@ -103,13 +104,13 @@ Typical settings:
 - Output directory
 - Specification of indicators to compute
 
-To compute only selected indicators, use the abbreviations (as listed in the `index` column in [doc/indices.csv](doc/indices.csv)) in the `[CLIMATE_INDICES]` section of `config.toml`. If omitted, all indicators listed in `doc/indices.csv` are computed.
+To compute only selected indicators, use the abbreviations (as listed in the `index` column in [doc/indices.csv](doc/indices.csv)) in the `[CLIMATE_INDICES]` section of `config.toml`. Default is `IND_LIST = "all"`, which computes all indicators listed in `doc/indices.csv`.
 
 
 ## Climate indicators
 
 - The list of all currently implemented indicators is available as [doc/indices.csv](doc/indices.csv)
-- The list comprises [Climdex](https://www.climdex.org/learn/indices/), [BIOCLIM](https://www.worldclim.org/data/bioclim.html) and additional indices from xclim, as well as custom routines.
+- The list comprises [Climdex](https://www.climdex.org/learn/indices/), [BIOCLIM](https://www.worldclim.org/data/bioclim.html) and additional indices from [`xclim`](https://xclim.readthedocs.io/en/stable/), as well as custom routines.
 
 
 ## Visualisation
