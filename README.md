@@ -2,6 +2,8 @@
 
 <!-- badges -->
 <p align="center">
+    <a href="https://seblehner.github.io/austrian-climate-indicators">
+        <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub-Pages-blue"></a>
     <a href="https://doi.org/10.5281/zenodo.16928609">
         <img alt="Zenodo data doi" src="https://zenodo.org/badge/DOI/10.5281/zenodo.16928609.svg"></a>
     <a href="https://github.com/psf/black">
