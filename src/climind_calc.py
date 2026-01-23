@@ -171,6 +171,29 @@ def postprocess_climind(climind: xr.DataArray, index: str, freq: str) -> xr.Data
     return climind
 
 
+def postprocess_units(climind: xr.DataArray) -> xr.DataArray:
+    """Transforms units for temperature based climate indicators from K to degC.
+
+    Args:
+        climind (xr.DataArray): climate indicator xr.DataArray
+
+    Returns:
+        xr.DataArray: modified climate indicator xr.DataArray
+    """
+    log = _get_logger()
+    if climind.attrs["units"] == "K":
+        if climind.min().values >= 0 and climind.max().values >= 120:
+            log.debug(f"Transform units from K to degC for {climind.name}")
+            climind = xc.core.units.convert_units_to(climind, "degC")
+        else:
+            log.debug(
+                f"No unit transformation needed for {climind.name}, because temperature is"
+                " not an absolute value in Kelvin, but presumably already a difference and"
+                " hence equal to degC."
+            )
+    return climind
+
+
 def preprocess_climind(xda_dict: dict[xr.DataArray], index: str) -> dict[xr.DataArray]:
     """preprocess input data in specific ways for some climate indicators
 
@@ -461,6 +484,7 @@ def calc_climate_indices(
             extra_kwargs=extra_kwargs,
             xclim_func=xclim_func,
         )
+    climind = postprocess_units(climind=climind)
     return climind
 
 
