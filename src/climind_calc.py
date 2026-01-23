@@ -476,9 +476,13 @@ def _ensure_temporal_chunking(xda: list[xr.DataArray]) -> list[xr.DataArray]:
     """
     xda_new = []
     for xda_ in xda:
-        for tdim in ["time", "dayofyear", "season"]:
-            if tdim in xda_.dims:
-                xda_tmp = xda_.chunk({tdim: -1})
+        if any(tdim in xda_.dims for tdim in ["time", "dayofyear", "season"]):
+            for tdim in ["time", "dayofyear", "season"]:
+                if tdim in xda_.dims:
+                    dim = tdim
+            xda_tmp = xda_.chunk({dim: -1})
+        else:
+            xda_tmp = xda_
         xda_new.append(xda_tmp)
     return xda_new
 
