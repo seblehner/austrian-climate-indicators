@@ -41,3 +41,14 @@ IND_LIST = "all"
 [CRS]
 # EPSG for CRS information
 EPSG = "3416"
+
+[PLOT]
+# configure which plots should be generated when running src/climind_plot.py
+# Note: only use 'true', or 'false' (all lowercase) for correct boolean parsing!
+ANOMALY_TIMESERIES = true
+CLIMATOLOGY_MAP = true
+STAMP_PLOTS = true
+STAMP_PLOTS_ANOMALY = true
+GROUP_SIGNIFICANCE = true
+WARMING_STRIPES = true
+YEAR_MINMAX = true
