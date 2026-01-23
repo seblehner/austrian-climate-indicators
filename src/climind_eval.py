@@ -110,11 +110,15 @@ if __name__ == "__main__":
 
         outpath_ind = Path(out_dir, group, index, aggperiod)
 
-        xda = xr.open_mfdataset(
-            "/".join([str(outpath_ind), "*.nc"]),
-            engine="h5netcdf",
-            decode_timedelta=False,
-        )[index]
+        try:
+            datapath = "/".join([str(outpath_ind), "*.nc"])
+            xda = xr.open_mfdataset(
+                datapath,
+                engine="h5netcdf",
+                decode_timedelta=False,
+            )[index]
+        except OSError as err:
+            log.info(f"Could not open dataset for {datapath} with error: {err}")
 
         ## calc areamean per aggperiod
         ameanfile = get_eval_outfile_path("areamean")
