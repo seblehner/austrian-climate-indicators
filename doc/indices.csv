@@ -1,118 +1,118 @@
-index,description,group,parameter,definition,source,aggperiod,kwargs,xclim_func,units
-TGmean,Average mean temperature,temperature,TG,,ETCCDI,yea+sea,,indices.tg_mean,°C
-TNmean,Average daily minimum temperature,temperature,TN,,ETCCDI,yea+sea,,indices.tn_mean,°C
-TXmean,Average daily maximum temperature,temperature,TX,,ETCCDI,yea+sea,,indices.tx_mean,°C
-FD,Number of frost days,temperature,TN,TNij < 0°C,ETCCDI,yea+sea,thresh='0 degC',indicators.atmos.frost_days,day
-SU,Number of summer days,temperature,TX,TXij > 25°C,ETCCDI,yea+sea,thresh='25.0 degC',indicators.atmos.tx_days_above,day
-HD,Number of hot days,temperature,TX,TXij > 30°C,ETCCDI,yea+sea,thresh='30.0 degC',indicators.atmos.tx_days_above,day
-ID,Number of icing days,temperature,TX,TXij < 0°C,ETCCDI,yea+sea,thresh='0 degC',indicators.atmos.ice_days,day
-TR,Number of tropical nights,temperature,TN,TNij > 20°C,ETCCDI,yea+sea,thresh='20.0 degC',indicators.atmos.tropical_nights,day
-KYS,Kysely episodes,temperature,TX,3d TXij >= 30°C && subsequent days TXij >= 25°C while TXavg(episode) >= 30°C,high-impact,yea+sea,,no_xclim,day
-GSL,Growing season length,temperature,TG,6d TGij > 5°C && 6d TGij < 5°C,ETCCDI,yea,,indicators.atmos.growing_season_length,day
-GSS,Growing season start,temperature,TG,first 4d TGij > 5°C,waldzukunft,yea,window=4,indicators.atmos.growing_season_start,dayofyear
-spring_backlash,Backlash onset/spring frost,temperature,TG+TN,count TNij < -2°C after GSS until DOY 180,waldzukunft,yea,,no_xclim,1
-SBI,Spring backlash index,temperature,TG+TN,GDD5 after GSS until last backlash event (TNij < -2°C),waldzukunft,yea,,no_xclim,1
-TXx,Maximum value of daily maximum temperature,temperature,TX,,ETCCDI,yea+sea,,indicators.atmos.tx_max,°C
-TNx,Maximum value of daily minimum temperature,temperature,TN,,ETCCDI,yea+sea,,indicators.atmos.tn_max,°C
-TXn,Minimum value of daily maximum temperature,temperature,TX,,ETCCDI,yea+sea,,indicators.atmos.tx_min,°C
-TNn,Minimum value of daily minimum temperature,temperature,TN,,ETCCDI,yea+sea,,indicators.atmos.tn_min,°C
-TN10p,Percentage of days when TN < 10th percentile,temperature,TN,,ETCCDI,yea+sea,thresh_per='q10'+ref_period='1991-2020',indicators.atmos.tn_days_below,%
-TX10p,Percentage of days when TX < 10th percentile,temperature,TX,,ETCCDI,yea+sea,thresh_per='q10'+ref_period='1991-2020',indicators.atmos.tx_days_below,%
-TN90p,Percentage of days when TN > 90th percentile,temperature,TN,,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.tn_days_above,%
-TX90p,Percentage of days when TX > 90th percentile,temperature,TX,,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.tx_days_above,%
-CFD,Consecutive frost days,temperature,TN,max length of TN < 0,waldzukunft,yea+sea,,indicators.atmos.consecutive_frost_days,day
-CSU,Consecutive summer days,temperature,TX,max length of TX > 25°C,waldzukunft,yea+sea,,indicators.atmos.maximum_consecutive_warm_days,day
-WSDI,Warm spell duration index,temperature,TX,6d TX > q90,ETCCDI,yea+sea,tasmax_per='q90'+ref_period='1991-2020',indicators.atmos.warm_spell_duration_index,day
-CSDI,Cold spell duration index,temperature,TN,6d TNij < q10,ETCCDI,yea+sea,tasmin_per='q10'+ref_period='1991-2020',indicators.atmos.cold_spell_duration_index,day
-HSF,Hot spell frequency,temperature,TX,events that fulfill 6d TX > q90,various,yea+sea,thresh_per='q90'+ref_period='1991-2020'+window=6,indicators.atmos.hot_spell_frequency,1/day
-CSF,Cold spell frequency,temperature,TG,events that fulfill 6d TG < q10,various,yea+sea,thresh_per='q10'+ref_period='1991-2020'+window=6,indicators.atmos.cold_spell_frequency,1/day
-CE,Cold episodes,temperature,TX,5d TX < 0°C,waldzukunft,yea+sea,thresh='0 degC'+window=5,indicators.atmos.cold_spell_frequency,day
-EID,Extreme ice days,temperature,TN+TX,TNij < -7°C && TXij < 0°C,waldzukunft,yea+sea,thresh_tasmin='-7 degC'+thresh_tasmax='0 degC',indicators.atmos.tx_tn_days_above,day
-TPD,Thaw period days,temperature,TG,TGij > 1.5°C,waldzukunft,yea+sea,thresh='1.5 degC',indicators.atmos.tg_days_above,day
-FTD,Freeze-thaw days,temperature,TN+TX,TNij < 0 && TX > 0°C,waldzukunft,yea+sea,thresh_tasmin='0 degC'+thresh_tasmax='0 degC',indicators.atmos.daily_freezethaw_cycles,day
-FTD2,Freeze-thaw days,temperature,TN+TX,TNij < 2- && TX > 2°C,öks,yea+sea,thresh_tasmin='-2 degC'+thresh_tasmax='2 degC',indicators.atmos.daily_freezethaw_cycles,day
-continentality,Continentality,temperature,TG,TG warmest month - TG coldest month,waldzukunft,yea,,no_xclim,°C
-GDD0,Growing degree days above 0 °C,temperature,TG,sum monthly TG > 0°C * n_days,waldzukunft,yea+sea,thresh='0 degC',indicators.atmos.growing_degree_days,day
-GDD5,Growing degree days above 5 °C,temperature,TG,sum monthly TG > 5°C * n_days,waldzukunft,yea+sea,thresh='5 degC',indicators.atmos.growing_degree_days,day
-GDD10,Growing degree days above 10 °C,temperature,TG,sum monthly TG > 10°C * n_days,waldzukunft,yea+sea,thresh='10 degC',indicators.atmos.growing_degree_days,day
-DTR,Daily temperature range,temperature,TN+TX,TXij - TNij,ETCCDI,yea+sea,,indicators.atmos.daily_temperature_range,°C
-ETR,Extreme temperature range,temperature,TN+TX,TXx - TNn,ETCCDI,yea+sea,,indicators.atmos.extreme_temperature_range,°C
-PRCPTOT,Total precipitation accumulation,precipitation,RR,,ETCCDI,yea+sea,,indicators.atmos.precip_accumulation,kg/m²
-Rx1day,Maximum 1-day precipitation,precipitation,RR,,ETCCDI,yea+sea,,indicators.atmos.max_1day_precipitation_amount,kg/m²
-Rx5day,Maximum consecutive 5-day precipitation,precipitation,RR,,ETCCDI,yea+sea,window=5,indicators.atmos.max_n_day_precipitation_amount,kg/m²
-RR90pct,90th percentile of rainday amounts (mm/day),precipitation,RR,,waldzukunft,yea+sea,q=0.9,no_xclim,kg/m²
-RR95pct,95th percentile of rainday amounts (mm/day),precipitation,RR,,high-impact,yea+sea,q=0.95,no_xclim,kg/m²
-RRmean,Mean precipitation,precipitation,RR,,waldzukunft,yea+sea,,indicators.atmos.precip_average,kg/m²
-SDII,Simple precipitation intensity index,precipitation,RR,,ETCCDI,yea+sea,,indicators.cf.sdii,kg/m²
-R10mm,Count of days when PRCP ≥ 10mm,precipitation,RR,,ETCCDI,yea+sea,thresh='10 mm/day',indicators.atmos.wetdays,day
-R20mm,Count of days when PRCP ≥ 20mm,precipitation,RR,,ETCCDI,yea+sea,thresh='20 mm/day',indicators.atmos.wetdays,day
-R30mm,Count of days when PRCP ≥ 30mm,precipitation,RR,,ETCCDI,yea+sea,thresh='30 mm/day',indicators.atmos.wetdays,day
-R40mm,Count of days when PRCP ≥ 40mm,precipitation,RR,,ETCCDI,yea+sea,thresh='40 mm/day',indicators.atmos.wetdays,day
-R50mm,Count of days when PRCP ≥ 50mm,precipitation,RR,,ETCCDI,yea+sea,thresh='50 mm/day',indicators.atmos.wetdays,day
-CDD,Consecutive dry days,precipitation,RR,RRij < 1 mm,ETCCDI,yea+sea,,indicators.atmos.maximum_consecutive_dry_days,day
-CWD,Consecutive wet days,precipitation,RR,RRij ≥ 1 mm,ETCCDI,yea+sea,,indicators.atmos.maximum_consecutive_wet_days,day
-Rsum30min,Minimum of precipitation sums within a moving 30 day window,precipitation,RR,,waldzukunft,yea+sea,,no_xclim,kg/m²
-Rsum30max,Maximum of precipitation sums within a moving 30 day window,precipitation,RR,,waldzukunft,yea+sea,,no_xclim,kg/m²
-R75p,Precipitation on moderate wet days,precipitation,RR,RRij > q75,ETCCDI,yea+sea,thresh_per='q75'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation,kg/m²
-R90p,Precipitation on wet days,precipitation,RR,RRij > q90,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation,kg/m²
-R95p,Precipitation on very wet days,precipitation,RR,RRij > q95,ETCCDI,yea+sea,thresh_per='q95'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation,kg/m²
-R99p,Precipitation on extremely wet days,precipitation,RR,RRij > q99,ETCCDI,yea+sea,thresh_per='q99'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation,kg/m²
-R90pTOT,Contribution to total precipitation from wet days,precipitation,RR,,ETCCDI,yea+sea,pr_per='q90'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh,%
-R95pTOT,Contribution to total precipitation from very wet days,precipitation,RR,,ETCCDI,yea+sea,pr_per='q95'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh,%
-R99pTOT,Contribution to total precipitation from extremely wet days,precipitation,RR,,ETCCDI,yea+sea,pr_per='q99'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh,%
-API07_Q95,0.95 quantile of antecedent precipitation index (k=7;p=0.9),precipitation,RR,,Kohler and Linsley (1924),yea+sea,k_timeperiod=7,no_xclim,kg/m²
-API14_Q95,0.95 quantile of antecedent precipitation index (k=14;p=0.9),precipitation,RR,,Kohler and Linsley (1924),yea+sea,k_timeperiod=14,no_xclim,kg/m²
-API28_Q95,0.95 quantile of antecedent precipitation index (k=28;p=0.9),precipitation,RR,,Kohler and Linsley (1924),yea+sea,k_timeperiod=28,no_xclim,kg/m²
-PCI_Q95,0.95 quantile of precipitation concentration index,precipitation,RR,,Oliver (2010),yea+sea,,no_xclim,1
-SHMI,Summer heat-moisture index,mixed,RR+TG,TG warmest month : mean summer RR,waldzukunft,yea,,no_xclim,°C/mm
-SAmean,Absolute sunshine duration,radiation,SA,,Hiebl et al. (2024),yea+sea,,no_xclim,hour
-SRmean,Relative sunshine duration,radiation,SR,,Hiebl et al. (2024),yea+sea,,no_xclim,hour
-ET0mean,Mean reference evapotranspiration,humidity,ET0,,Haslinger and Bartsch (2016),yea+sea,,no_xclim,kg/m²day
-ET0_Qcold,Mean PET in coldest quarter,mixed,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qdry,Mean monthly PET in driest quarter,mixed,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qwarm,Mean monthly PET in warmest quarter,mixed,ET0+TG,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_Qwet,Mean monthly PET in wettest quarter,mixed,ET0+RR,,waldzukunft,yea,,no_xclim,kg/m²day
-ET0_seasonality,Mean monthly variabiity in PET,humidity,ET0,,waldzukunft,yea+sea,,no_xclim,mm²/day²
-SPEI30mean,Mean of Standardized Precipitation Evapotranspiration Index (30 days),humidity,SPEI30,,Vicente-Serrano et al. (2010),yea+sea,,no_xclim,1
-SPEI90mean,Mean of Standardized Precipitation Evapotranspiration Index (90 days),humidity,SPEI90,,Vicente-Serrano et al. (2010),yea+sea,,no_xclim,1
-SPEI365mean,Mean of Standardized Precipitation Evapotranspiration Index (365 days),humidity,SPEI365,,Vicente-Serrano et al. (2010),yea+sea,,no_xclim,1
-SPEI90_th-2,Days with extreme drought,humidity,SPEI90,SPEI90ij < -2,high-impact,yea+sea,,no_xclim,day
-SPEI90_th-1,Days with moderate drought,humidity,SPEI90,SPEI90ij < -1,high-impact,yea+sea,,no_xclim,day
-SPEI90_th+1,Days with moderate humid conditions,humidity,SPEI90,SPEI90ij > 1,high-impact,yea+sea,,no_xclim,day
-SPEI90_th+2,Days with extreme humid conditions,humidity,SPEI90,SPEI90ij > 2,high-impact,yea+sea,,no_xclim,day
-HS_Q95,0.95 quantile of total surface snow thickness,snow,snow_depth,,Olefs et al. (2020),yea+sea,,no_xclim,m
-HSfr_Q95,0.95 quantile of fresh surface snow thickness,snow,snow_depth_fresh,,Olefs et al. (2020),yea+sea,,no_xclim,m
-SWE_Q95,0.95 quantile of total snow water equivalent,snow,swe_tot,,Olefs et al. (2020),yea+sea,,no_xclim,kg/m²
-SWEfr_Q95,0.95 quantile of fresh snow water equivalent,snow,swe_fresh,,Olefs et al. (2020),yea+sea,,no_xclim,kg/m²
-NSD_72h,Maximum 72h fresh snow,snow,snow_depth_fresh,max(snow_depth_fresh) in 72h,high-impact,yea+sea,,no_xclim,kg/m²
-SCD01,Snow cover duration above 1 cm,snow,snow_depth,snow depth ≥ 1 cm,snowgrid,yea+sea,thresh='1 cm',indicators.land.snd_days_above,day
-SCD10,Snow cover duration above 10 cm,snow,snow_depth,snow depth ≥ 10 cm,snowgrid,yea+sea,thresh='10 cm',indicators.land.snd_days_above,day
-runoff_Q95,0.95 quantile of total surface runoff from snowmelt and rain,runoff,runoff,,snowgrid,yea+sea,,no_xclim,kg/m²
-snowmelt_Q95,0.95 quantile of daily snowmelt,snow,snowmelt,,snowgrid,yea+sea,,no_xclim,kg/m²
-BIO01,Annual mean temperature,temperature,TG,,anuclim*,yea,,indicators.anuclim.P1_AnnMeanTemp,°C
-BIO02,Mean diurnal range,temperature,TN+TX,,ANUCLIM,yea,,indicators.anuclim.P2_MeanDiurnalRange,°C
-BIO03,Isothermality,temperature,TN+TX,,ANUCLIM,yea,,indicators.anuclim.P3_Isothermality,°C
-BIO04,Temperature seasonality,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P4_TempSeasonality,°C
-BIO05,Max temperature of warmest month,temperature,TX,,anuclim*,yea,,indicators.anuclim.P5_MaxTempWarmestPeriod,°C
-BIO06,Min temperature of coldest month,temperature,TN,,anuclim*,yea,,indicators.anuclim.P6_MinTempColdestPeriod,°C
-BIO07,Temperature annual range,temperature,TN+TX,,ANUCLIM,yea,,indicators.anuclim.P7_TempAnnualRange,°C
-BIO08,Mean temperature of wettest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P8_MeanTempWettestQuarter,°C
-BIO09,Mean temperature of driest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P9_MeanTempDriestQuarter,°C
-BIO10,Mean temperature of warmest quarter,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P10_MeanTempWarmestQuarter,°C
-BIO11,Mean temperature of coldest quarter,temperature,TG,,ANUCLIM,yea,,indicators.anuclim.P11_MeanTempColdestQuarter,°C
-BIO12,Annual precipitation,precipitation,RR,,anuclim*,yea,,indicators.anuclim.P12_AnnualPrecip,kg/m²
-BIO13,Precipitation of wettest month,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P13_PrecipWettestPeriod,kg/m²
-BIO14,Precipitation of driest month,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P14_PrecipDriestPeriod,kg/m²
-BIO15,Precipitation seasonality,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P15_PrecipSeasonality,kg/m²
-BIO16,Precipitation of wettest quarter,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P16_PrecipWettestQuarter,kg/m²
-BIO17,Precipitation of driest quarter,precipitation,RR,,ANUCLIM,yea,,indicators.anuclim.P17_PrecipDriestQuarter,kg/m²
-BIO18,Precipitation of warmest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P18_PrecipWarmestQuarter,kg/m²
-BIO19,Precipitation of coldest quarter,mixed,RR+TG,,ANUCLIM,yea,,indicators.anuclim.P19_PrecipColdestQuarter,kg/m²
-HN1_SD,Number of days with fresh snow greater than 1 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 1 cm,,hydrological_year,thresh='1 cm',indicators.land.snd_storm_days,day
-HN5_SD,Number of days with fresh snow greater than 5 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 5 cm,,hydrological_year,thresh='5 cm',indicators.land.snd_storm_days,day
-HN10_SD,Number of days with fresh snow greater than 10 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 10 cm,,hydrological_year,thresh='10 cm',indicators.land.snd_storm_days,day
-HN20_SD,Number of days with fresh snow greater than 20 cm as calculated from changes in snow depth,snow,snow_depth_fresh,number of days with snow_depth_fresh > 20 cm,,hydrological_year,thresh='20 cm',indicators.land.snd_storm_days,day
-CDDcold18.3,Cooling Degree Days,temperature,TG,,ETCCDI,yea,thresh='18.3 degC',indicators.atmos.cooling_degree_days,°C
-HDDheat20,Heating Degree Days,temperature,TG,,ETCCDI,yea,thresh='20 degC',indicators.atmos.heating_degree_days,°C
-RR_summerhalf,Accumulated precipitation during the summer halfyear,precipitation,RR,,CLIMDEX,summer_halfyear,,indicators.atmos.precip_accumulation,kg/m²
-RR_winterhalf,Accumulated precipitation during the winter halfyear,precipitation,RR,,CLIMDEX,winter_halfyear,,indicators.atmos.precip_accumulation,kg/m²
+index,description,group,parameter,units,source,aggperiod,kwargs,xclim_func
+TGmean,Average daily mean temperature,temperature,TG,°C,ETCCDI,yea+sea,,indices.tg_mean
+TNmean,Average daily minimum temperature,temperature,TN,°C,ETCCDI,yea+sea,,indices.tn_mean
+TXmean,Average daily maximum temperature,temperature,TX,°C,ETCCDI,yea+sea,,indices.tx_mean
+FD,Number of frost days given by TN < 0 °C,temperature,TN,day,ETCCDI,yea+sea,thresh='0 degC',indicators.atmos.frost_days
+SU,Number of summer days given by TX > 25 °C,temperature,TX,day,ETCCDI,yea+sea,thresh='25.0 degC',indicators.atmos.tx_days_above
+HD,Number of hot days given by TX > 30 °C,temperature,TX,day,ETCCDI,yea+sea,thresh='30.0 degC',indicators.atmos.tx_days_above
+ID,Number of icing days given by TX < 0 °C,temperature,TX,day,ETCCDI,yea+sea,thresh='0 degC',indicators.atmos.ice_days
+TR,Number of tropical nights given by TN > 20 °C,temperature,TN,day,ETCCDI,yea+sea,thresh='20.0 degC',indicators.atmos.tropical_nights
+KYS,Kysely days are defined as count of days in periods of at least 3 consecutive days with TX ≥ 30 °C on the first day and TX ≥ 25 °C on subsequent days while the average TX during those days is ≥ 30 °C,temperature,TX,day,high-impact,yea+sea,,no_xclim
+GSL,Growing season length is the number of days between the first 6-day period where TG > 5 °C and the first 6-day period where TG < 5 °C (in the second half of the year),temperature,TG,day,ETCCDI,yea,,indicators.atmos.growing_season_length
+GSS,Growing season start is the day of the year of a 4-day period where TG > 5 °C,temperature,TG,dayofyear,waldzukunft,yea,window=4,indicators.atmos.growing_season_start
+spring_backlash,Backlash onset/spring frost is the number of days where TN < -2 °C for all days after GSS (growing_season_start) and up to day 180 of the year,temperature,TG+TN,day,waldzukunft,yea,,no_xclim
+SBI,Spring backlash index represents GDD5 (growing degree days above 5 °C) for all days after GSS and up to the last spring_backlash event,temperature,TG+TN,K⋅day,waldzukunft,yea,,no_xclim
+TXx,Maximum value of daily maximum temperature,temperature,TX,°C,ETCCDI,yea+sea,,indicators.atmos.tx_max
+TNx,Maximum value of daily minimum temperature,temperature,TN,°C,ETCCDI,yea+sea,,indicators.atmos.tn_max
+TXn,Minimum value of daily maximum temperature,temperature,TX,°C,ETCCDI,yea+sea,,indicators.atmos.tx_min
+TNn,Minimum value of daily minimum temperature,temperature,TN,°C,ETCCDI,yea+sea,,indicators.atmos.tn_min
+TN10p,Percentage of days when TN < 10th percentile (ref_period for threshold is 1991-2020),temperature,TN,%,ETCCDI,yea+sea,thresh_per='q10'+ref_period='1991-2020',indicators.atmos.tn_days_below
+TX10p,Percentage of days when TX < 10th percentile (ref_period for threshold is 1991-2020),temperature,TX,%,ETCCDI,yea+sea,thresh_per='q10'+ref_period='1991-2020',indicators.atmos.tx_days_below
+TN90p,Percentage of days when TN > 90th percentile (ref_period for threshold is 1991-2020),temperature,TN,%,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.tn_days_above
+TX90p,Percentage of days when TX > 90th percentile (ref_period for threshold is 1991-2020),temperature,TX,%,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.tx_days_above
+CFD,Consecutive frost days is the max length of TN < 0 °C,temperature,TN,day,waldzukunft,yea+sea,,indicators.atmos.consecutive_frost_days
+CSU,Consecutive summer days is the max length of TX > 25 °,temperature,TX,day,waldzukunft,yea+sea,,indicators.atmos.maximum_consecutive_warm_days
+WSDI,Warm spell duration index is the number of days within warm spells which are defined as 6-day consecutive periods where TX > 90th percentile (ref_period for threshold is 1991-2020),temperature,TX,day,ETCCDI,yea+sea,tasmax_per='q90'+ref_period='1991-2020',indicators.atmos.warm_spell_duration_index
+CSDI,Cold spell duration index is the number of days within cold spells which are defined as 6-day consecutive periods where TN < 10th percentile (ref_period for threshold is 1991-2020),temperature,TN,day,ETCCDI,yea+sea,tasmin_per='q10'+ref_period='1991-2020',indicators.atmos.cold_spell_duration_index
+HSF,Hot spell frequency is the number of spell events as defined in WSDI,temperature,TX,1/day,various,yea+sea,thresh_per='q90'+ref_period='1991-2020'+window=6,indicators.atmos.hot_spell_frequency
+CSF,Cold spell frequency is the number of cold spell events as defined in CSDI,temperature,TG,1/day,various,yea+sea,thresh_per='q10'+ref_period='1991-2020'+window=6,indicators.atmos.cold_spell_frequency
+CE,Cold episodes is the number of cold spells defined as continuous periods of at least 5-days where TX < 0 °C,temperature,TX,day,waldzukunft,yea+sea,thresh='0 degC'+window=5,indicators.atmos.cold_spell_frequency
+EID,Extreme ice days is the number of days where TN < -7 °C and TX < 0 °C,temperature,TN+TX,day,waldzukunft,yea+sea,thresh_tasmin='-7 degC'+thresh_tasmax='0 degC',indicators.atmos.tx_tn_days_above
+TPD,Thaw period days is the number of days where TG > 1.5 °C,temperature,TG,day,waldzukunft,yea+sea,thresh='1.5 degC',indicators.atmos.tg_days_above
+FTD,Freeze-thaw days is the number of days where TN < 0 °C and TX > 0 °C,temperature,TN+TX,day,waldzukunft,yea+sea,thresh_tasmin='0 degC'+thresh_tasmax='0 degC',indicators.atmos.daily_freezethaw_cycles
+FTD2,Freeze-thaw days is the number of days where TN < -2 °C and TX > 2 °C,temperature,TN+TX,day,öks,yea+sea,thresh_tasmin='-2 degC'+thresh_tasmax='2 degC',indicators.atmos.daily_freezethaw_cycles
+continentality,Continentality is the difference between the maximum monthly and minimum monthly TG,temperature,TG,°C,waldzukunft,yea,,no_xclim
+GDD0,Growing degree days above 0 °C is the sum of daily temperature differences above 0 °C,temperature,TG,K⋅day,waldzukunft,yea+sea,thresh='0 degC',indicators.atmos.growing_degree_days
+GDD5,Growing degree days above 5 °C is the sum of daily temperature differences above 5 °C,temperature,TG,K⋅day,waldzukunft,yea+sea,thresh='5 degC',indicators.atmos.growing_degree_days
+GDD10,Growing degree days above 10 °C is the sum of daily temperature differences above 10 °C,temperature,TG,K⋅day,waldzukunft,yea+sea,thresh='10 degC',indicators.atmos.growing_degree_days
+DTR,Daily temperature range is the average daily difference of TX - TN,temperature,TN+TX,K,ETCCDI,yea+sea,,indicators.atmos.daily_temperature_range
+ETR,Extreme temperature range is the difference between maximum daily TX and minimum daily TN: TXx - TNn,temperature,TN+TX,K,ETCCDI,yea+sea,,indicators.atmos.extreme_temperature_range
+PRCPTOT,Total precipitation accumulation,precipitation,RR,kg/m²,ETCCDI,yea+sea,,indicators.atmos.precip_accumulation
+Rx1day,Maximum 1-day precipitation,precipitation,RR,kg/m²,ETCCDI,yea+sea,,indicators.atmos.max_1day_precipitation_amount
+Rx5day,Maximum consecutive 5-day precipitation,precipitation,RR,kg/m²,ETCCDI,yea+sea,window=5,indicators.atmos.max_n_day_precipitation_amount
+RR90pct,90th percentile of wet days (RR > 1 mm) amounts (mm/day) for the respective period,precipitation,RR,kg/m²,waldzukunft,yea+sea,q=0.9,no_xclim
+RR95pct,95th percentile of wet days (RR > 1 mm) amounts (mm/day) for the respective period,precipitation,RR,kg/m²,high-impact,yea+sea,q=0.95,no_xclim
+RRmean,Mean precipitation,precipitation,RR,kg/m²,waldzukunft,yea+sea,,indicators.atmos.precip_average
+SDII,Simple precipitation intensity index is the average precipitation on wet days (RR > 1 mm),precipitation,RR,kg/m²,ETCCDI,yea+sea,,indicators.cf.sdii
+R10mm,Count of days when RR ≥ 10mm,precipitation,RR,day,ETCCDI,yea+sea,thresh='10 mm/day',indicators.atmos.wetdays
+R20mm,Count of days when RR ≥ 20mm,precipitation,RR,day,ETCCDI,yea+sea,thresh='20 mm/day',indicators.atmos.wetdays
+R30mm,Count of days when RR ≥ 30mm,precipitation,RR,day,ETCCDI,yea+sea,thresh='30 mm/day',indicators.atmos.wetdays
+R40mm,Count of days when RR ≥ 40mm,precipitation,RR,day,ETCCDI,yea+sea,thresh='40 mm/day',indicators.atmos.wetdays
+R50mm,Count of days when RR ≥ 50mm,precipitation,RR,day,ETCCDI,yea+sea,thresh='50 mm/day',indicators.atmos.wetdays
+CDD,Consecutive dry days is the count of days of the longest period where RR < 1 mm,precipitation,RR,day,ETCCDI,yea+sea,,indicators.atmos.maximum_consecutive_dry_days
+CWD,Consecutive wet days is the count of days of the longest period where RR > 1 mm,precipitation,RR,day,ETCCDI,yea+sea,,indicators.atmos.maximum_consecutive_wet_days
+Rsum30min,Minimum of precipitation sums within a moving 30 day window,precipitation,RR,kg/m²,waldzukunft,yea+sea,,no_xclim
+Rsum30max,Maximum of precipitation sums within a moving 30 day window,precipitation,RR,kg/m²,waldzukunft,yea+sea,,no_xclim
+R75p,Sum of precipitation on moderate wet days which is RR > 75th percentile (ref_period 1991-2020),precipitation,RR,kg/m²,ETCCDI,yea+sea,thresh_per='q75'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation
+R90p,Sum of precipitation on wet days which is RR > 90th percentile (ref_period 1991-2020),precipitation,RR,kg/m²,ETCCDI,yea+sea,thresh_per='q90'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation
+R95p,Sum of precipitation on very wet days which is RR > 95th percentile (ref_period 1991-2020),precipitation,RR,kg/m²,ETCCDI,yea+sea,thresh_per='q95'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation
+R99p,Sum of precipitation on extremely wet days which is RR > 99th percentile (ref_period 1991-2020),precipitation,RR,kg/m²,ETCCDI,yea+sea,thresh_per='q99'+ref_period='1991-2020',indicators.atmos.wet_precip_accumulation
+R90pTOT,Contribution to total precipitation as % from wet days which is RR > 90th percentile (ref_period 1991-2020),precipitation,RR,%,ETCCDI,yea+sea,pr_per='q90'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh
+R95pTOT,Contribution to total precipitation as % from very wet days which is RR > 95th percentile (ref_period 1991-2020),precipitation,RR,%,ETCCDI,yea+sea,pr_per='q95'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh
+R99pTOT,Contribution to total precipitation as % from extremely wet days which is RR > 99th percentile (ref_period 1991-2020),precipitation,RR,%,ETCCDI,yea+sea,pr_per='q99'+ref_period='1991-2020',indicators.atmos.fraction_over_precip_thresh
+API07_Q95,0.95 quantile of antecedent precipitation index (k=7;p=0.9). API is a sum of daily weighted (exponential decay) RR for a specified window k,precipitation,RR,kg/m²,Kohler and Linsley (1924),yea+sea,k_timeperiod=7,no_xclim
+API14_Q95,0.95 quantile of antecedent precipitation index (k=14;p=0.9). API is a sum of daily weighted (exponential decay) RR for a specified window k,precipitation,RR,kg/m²,Kohler and Linsley (1924),yea+sea,k_timeperiod=14,no_xclim
+API28_Q95,0.95 quantile of antecedent precipitation index (k=28;p=0.9). API is a sum of daily weighted (exponential decay) RR for a specified window k,precipitation,RR,kg/m²,Kohler and Linsley (1924),yea+sea,k_timeperiod=28,no_xclim
+PCI_Q95,0.95 quantile of precipitation concentration index. PCI is the sum of squared monthly RR divided by the square of the total sum of RR,precipitation,RR,1,Oliver (2010),yea+sea,,no_xclim
+SHMI,Summer heat-moisture index is the ratio of maximum monthly TG to average RR of JJA (June July August),mixed,RR+TG,°C/mm,waldzukunft,yea,,no_xclim
+SAmean,Mean absolute sunshine duration,radiation,SA,hour,Hiebl et al. (2024),yea+sea,,no_xclim
+SRmean,Mean relative sunshine duration,radiation,SR,1,Hiebl et al. (2024),yea+sea,,no_xclim
+ET0mean,Mean reference evapotranspiration,humidity,ET0,kg/m²day,Haslinger and Bartsch (2016),yea+sea,,no_xclim
+ET0_Qcold,Mean potential evapotranspiration (PET) in coldest quarter (quarters as meteorological seasons),mixed,ET0+TG,kg/m²day,waldzukunft,yea,,no_xclim
+ET0_Qdry,Mean monthly potential evapotranspiration (PET) in driest quarter (quarters as meteorological seasons),mixed,ET0+RR,kg/m²day,waldzukunft,yea,,no_xclim
+ET0_Qwarm,Mean monthly potential evapotranspiration (PET) in warmest quarter (quarters as meteorological seasons),mixed,ET0+TG,kg/m²day,waldzukunft,yea,,no_xclim
+ET0_Qwet,Mean monthly potential evapotranspiration (PET) in wettest quarter (quarters as meteorological seasons),mixed,ET0+RR,kg/m²day,waldzukunft,yea,,no_xclim
+ET0_seasonality,Mean monthly standard deviation of potential evapotranspiration (PET),humidity,ET0,mm²/day²,waldzukunft,yea+sea,,no_xclim
+SPEI30mean,Mean of Standardized Precipitation Evapotranspiration Index (SPEI 30 days),humidity,SPEI30,1,Vicente-Serrano et al. (2010),yea+sea,,no_xclim
+SPEI90mean,Mean of Standardized Precipitation Evapotranspiration Index (SPEI 90 days),humidity,SPEI90,1,Vicente-Serrano et al. (2010),yea+sea,,no_xclim
+SPEI365mean,Mean of Standardized Precipitation Evapotranspiration Index (SPEI 365 days),humidity,SPEI365,1,Vicente-Serrano et al. (2010),yea+sea,,no_xclim
+SPEI90_th-2,Days with extreme drought counted where SPEI90 < -2,humidity,SPEI90,day,high-impact,yea+sea,,no_xclim
+SPEI90_th-1,Days with moderate drought counted where SPEI90 < -1,humidity,SPEI90,day,high-impact,yea+sea,,no_xclim
+SPEI90_th+1,Days with moderate humid conditions counted where SPEI90 > 1,humidity,SPEI90,day,high-impact,yea+sea,,no_xclim
+SPEI90_th+2,Days with extreme humid conditions counted where SPEI90 > 2,humidity,SPEI90,day,high-impact,yea+sea,,no_xclim
+HS_Q95,0.95 quantile of total surface snow thickness,snow,snow_depth,m,Olefs et al. (2020),yea+sea,,no_xclim
+HSfr_Q95,0.95 quantile of fresh surface snow thickness,snow,snow_depth_fresh,m,Olefs et al. (2020),yea+sea,,no_xclim
+SWE_Q95,0.95 quantile of total snow water equivalent,snow,swe_tot,kg/m²,Olefs et al. (2020),yea+sea,,no_xclim
+SWEfr_Q95,0.95 quantile of fresh snow water equivalent,snow,swe_fresh,kg/m²,Olefs et al. (2020),yea+sea,,no_xclim
+NSD_72h,Maximum 72h fresh snow,snow,snow_depth_fresh,kg/m²,high-impact,yea+sea,,no_xclim
+SCD01,Snow cover duration above 1 cm,snow,snow_depth,day,snowgrid,yea+sea,thresh='1 cm',indicators.land.snd_days_above
+SCD10,Snow cover duration above 10 cm,snow,snow_depth,day,snowgrid,yea+sea,thresh='10 cm',indicators.land.snd_days_above
+runoff_Q95,0.95 quantile of total surface runoff from snowmelt and rain,runoff,runoff,kg/m²,snowgrid,yea+sea,,no_xclim
+snowmelt_Q95,0.95 quantile of daily snowmelt,snow,snowmelt,kg/m²,snowgrid,yea+sea,,no_xclim
+BIO01,Annual mean temperature (equivalent to TGmean),temperature,TG,°C,anuclim*,yea,,indicators.anuclim.P1_AnnMeanTemp
+BIO02,Mean diurnal range is the average daily difference of TX - TN (equivalent to DTR),temperature,TN+TX,°C,ANUCLIM,yea,,indicators.anuclim.P2_MeanDiurnalRange
+BIO03,Isothermality is the ratio of BIO02 / BIO07,temperature,TN+TX,%,ANUCLIM,yea,,indicators.anuclim.P3_Isothermality
+BIO04,Temperature seasonality is the annual coefficient of variation of TG expressed as %,temperature,TG,%,ANUCLIM,yea,,indicators.anuclim.P4_TempSeasonality
+BIO05,Max temperature of warmest month (equivalent to TXx),temperature,TX,°C,anuclim*,yea,,indicators.anuclim.P5_MaxTempWarmestPeriod
+BIO06,Min temperature of coldest month (equivalent to TNn),temperature,TN,°C,anuclim*,yea,,indicators.anuclim.P6_MinTempColdestPeriod
+BIO07,Temperature annual range is the difference of TXx - TNn (equivalent to ETR),temperature,TN+TX,°C,ANUCLIM,yea,,indicators.anuclim.P7_TempAnnualRange
+BIO08,Mean temperature of wettest quarter (quarters as meteorological seasons),mixed,RR+TG,°C,ANUCLIM,yea,,indicators.anuclim.P8_MeanTempWettestQuarter
+BIO09,Mean temperature of driest quarter (quarters as meteorological seasons),mixed,RR+TG,°C,ANUCLIM,yea,,indicators.anuclim.P9_MeanTempDriestQuarter
+BIO10,Mean temperature of warmest quarter (quarters as meteorological seasons),temperature,TG,°C,ANUCLIM,yea,,indicators.anuclim.P10_MeanTempWarmestQuarter
+BIO11,Mean temperature of coldest quarter (quarters as meteorological seasons),temperature,TG,°C,ANUCLIM,yea,,indicators.anuclim.P11_MeanTempColdestQuarter
+BIO12,Annual precipitation sum (equivalent to PRCPTOT),precipitation,RR,kg/m²,anuclim*,yea,,indicators.anuclim.P12_AnnualPrecip
+BIO13,Precipitation of wettest month (maximum daily RR),precipitation,RR,kg/m²,ANUCLIM,yea,,indicators.anuclim.P13_PrecipWettestPeriod
+BIO14,Precipitation of driest month (minimum daily RR),precipitation,RR,kg/m²,ANUCLIM,yea,,indicators.anuclim.P14_PrecipDriestPeriod
+BIO15,Precipitation seasonality is the annual coefficient of variation of RR expressed as %,precipitation,RR,%,ANUCLIM,yea,,indicators.anuclim.P15_PrecipSeasonality
+BIO16,Precipitation of wettest quarter (quarters as meteorological seasons),precipitation,RR,kg/m²,ANUCLIM,yea,,indicators.anuclim.P16_PrecipWettestQuarter
+BIO17,Precipitation of driest quarter (quarters as meteorological seasons),precipitation,RR,kg/m²,ANUCLIM,yea,,indicators.anuclim.P17_PrecipDriestQuarter
+BIO18,Precipitation of warmest quarter (quarters as meteorological seasons),mixed,RR+TG,kg/m²,ANUCLIM,yea,,indicators.anuclim.P18_PrecipWarmestQuarter
+BIO19,Precipitation of coldest quarter (quarters as meteorological seasons),mixed,RR+TG,kg/m²,ANUCLIM,yea,,indicators.anuclim.P19_PrecipColdestQuarter
+HN1_SD,Number of days with fresh snow greater than 1 cm as calculated from changes in snow depth,snow,snow_depth_fresh,day,,hydrological_year,thresh='1 cm',indicators.land.snd_storm_days
+HN5_SD,Number of days with fresh snow greater than 5 cm as calculated from changes in snow depth,snow,snow_depth_fresh,day,,hydrological_year,thresh='5 cm',indicators.land.snd_storm_days
+HN10_SD,Number of days with fresh snow greater than 10 cm as calculated from changes in snow depth,snow,snow_depth_fresh,day,,hydrological_year,thresh='10 cm',indicators.land.snd_storm_days
+HN20_SD,Number of days with fresh snow greater than 20 cm as calculated from changes in snow depth,snow,snow_depth_fresh,day,,hydrological_year,thresh='20 cm',indicators.land.snd_storm_days
+CDDcold18.3,Cooling Degree Days is the sum of daily temperature differences above a threshold of 18.3 °C,temperature,TG,K⋅day,ETCCDI,yea,thresh='18.3 degC',indicators.atmos.cooling_degree_days
+HDDheat20,Heating Degree Days is the sum of daily temperature differences below a threshold of 20 °C,temperature,TG,K⋅day,ETCCDI,yea,thresh='20 degC',indicators.atmos.heating_degree_days
+RR_summerhalf,Accumulated precipitation during the summer halfyear (April to September),precipitation,RR,kg/m²,CLIMDEX,summer_halfyear,,indicators.atmos.precip_accumulation
+RR_winterhalf,Accumulated precipitation during the winter halfyear (October to March),precipitation,RR,kg/m²,CLIMDEX,winter_halfyear,,indicators.atmos.precip_accumulation
