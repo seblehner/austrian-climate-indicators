@@ -160,6 +160,10 @@ if __name__ == "__main__":
             else:
                 raise ValueError(f"Incompatible {aggperiod = }")
             clim_past.attrs["units"] = unit
+
+            # add crs information
+            clim_past = clim_past.rio.write_crs(int(epsg))
+
             clim_past.compute().to_netcdf(climpastfile, engine="h5netcdf")
 
         if climnowfile.exists():
@@ -186,6 +190,10 @@ if __name__ == "__main__":
             else:
                 raise ValueError(f"Incompatible {aggperiod = }")
             clim_now.attrs["units"] = unit
+
+            # add crs information
+            clim_now = clim_now.rio.write_crs(int(epsg))
+
             clim_now.compute().to_netcdf(climnowfile, engine="h5netcdf")
 
         ## statistical significance test between clim mean
@@ -201,4 +209,8 @@ if __name__ == "__main__":
                 else "season"
             )
             _, pvals = MWU(clim_past_sel, clim_now_sel, dim=aggdim)
+
+            # add crs information
+            pvals = pvals.rio.write_crs(int(epsg))
+
             pvals.to_netcdf(pvalsfile, engine="h5netcdf")
