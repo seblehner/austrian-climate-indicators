@@ -2,7 +2,7 @@
 
 [GENERAL]
 YEAR_START = 1961
-YEAR_END = 2024
+YEAR_END = 2025
 
 [PATHS]
 # path to data per base variable needed for climate indicators
