@@ -90,12 +90,12 @@ SCD10,Snow cover duration above 10 cm,snow,snow_depth,day,snowgrid,yea+sea,thres
 runoff_Q95,0.95 quantile of total surface runoff from snowmelt and rain,runoff,runoff,kg/m²,snowgrid,yea+sea,,no_xclim
 snowmelt_Q95,0.95 quantile of daily snowmelt,snow,snowmelt,kg/m²,snowgrid,yea+sea,,no_xclim
 BIO01,Annual mean temperature (equivalent to TGmean),temperature,TG,°C,anuclim*,yea,,indicators.anuclim.P1_AnnMeanTemp
-BIO02,Mean diurnal range is the average daily difference of TX - TN (equivalent to DTR),temperature,TN+TX,°C,ANUCLIM,yea,,indicators.anuclim.P2_MeanDiurnalRange
+BIO02,Mean diurnal range is the average daily difference of TX - TN (equivalent to DTR),temperature,TN+TX,K,ANUCLIM,yea,,indicators.anuclim.P2_MeanDiurnalRange
 BIO03,Isothermality is the ratio of BIO02 / BIO07,temperature,TN+TX,%,ANUCLIM,yea,,indicators.anuclim.P3_Isothermality
 BIO04,Temperature seasonality is the annual coefficient of variation of TG expressed as %,temperature,TG,%,ANUCLIM,yea,,indicators.anuclim.P4_TempSeasonality
 BIO05,Max temperature of warmest month (equivalent to TXx),temperature,TX,°C,anuclim*,yea,,indicators.anuclim.P5_MaxTempWarmestPeriod
 BIO06,Min temperature of coldest month (equivalent to TNn),temperature,TN,°C,anuclim*,yea,,indicators.anuclim.P6_MinTempColdestPeriod
-BIO07,Temperature annual range is the difference of TXx - TNn (equivalent to ETR),temperature,TN+TX,°C,ANUCLIM,yea,,indicators.anuclim.P7_TempAnnualRange
+BIO07,Temperature annual range is the difference of TXx - TNn (equivalent to ETR),temperature,TN+TX,K,ANUCLIM,yea,,indicators.anuclim.P7_TempAnnualRange
 BIO08,Mean temperature of wettest quarter (quarters as meteorological seasons),mixed,RR+TG,°C,ANUCLIM,yea,,indicators.anuclim.P8_MeanTempWettestQuarter
 BIO09,Mean temperature of driest quarter (quarters as meteorological seasons),mixed,RR+TG,°C,ANUCLIM,yea,,indicators.anuclim.P9_MeanTempDriestQuarter
 BIO10,Mean temperature of warmest quarter (quarters as meteorological seasons),temperature,TG,°C,ANUCLIM,yea,,indicators.anuclim.P10_MeanTempWarmestQuarter
