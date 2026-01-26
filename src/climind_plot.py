@@ -16,6 +16,7 @@ from typing import Union
 import cartopy
 import cartopy.crs as ccrs
 import matplotlib
+import matplotlib.font_manager as font_manager
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -28,6 +29,37 @@ from utils import (
     get_inputs_from_climind_df,
     logger,
 )
+
+
+def configure_font():
+    # Configure default plotting font to 'Source Sans 3' (preferred) with a
+    # graceful fallback. If the font is available in the system font list it is
+    # prepended to the sans-serif rcParam so matplotlib will use it for plots.
+    # If the font is not found a warning is emitted but execution continues and
+    # matplotlib will fall back to the next available sans-serif font.
+    # source: https://fonts.adobe.com/fonts/source-sans-3
+    _climind_preferred_font = "Source Sans 3"
+    # Note: the following 2 lines manually add for user-installed fonts
+    # in ~/.local/share/fonts in case they are not found in the system
+    for fontfile in Path(Path.home(), ".local/share/fonts/").glob("*.ttf"):
+        font_manager.fontManager.addfont(str(fontfile))
+    _available_fonts = {f.name for f in font_manager.fontManager.ttflist}
+    if _climind_preferred_font in _available_fonts:
+        matplotlib.rcParams["font.family"] = "sans-serif"
+        matplotlib.rcParams["font.sans-serif"] = [
+            _climind_preferred_font,
+        ] + matplotlib.rcParams.get("font.sans-serif", [])
+    else:
+        # still prepend so if the font gets installed later it will be preferred
+        matplotlib.rcParams["font.sans-serif"] = [
+            _climind_preferred_font,
+        ] + matplotlib.rcParams.get("font.sans-serif", [])
+
+        log.warning(
+            f"Font '{_climind_preferred_font}' not found in system fonts. Plots will use a fallback sans-serif font until it's installed."
+        )
+    return None
+
 
 # projection for EPSG:3416
 cartopy_proj = {
@@ -123,7 +155,11 @@ def get_xlims(xvals: np.array) -> tuple[float, float]:
 
 
 def plot_lines_with_fill(
-    xda: xr.DataArray, xvals: np.array, ax: matplotlib.axes.Axes
+    xda: xr.DataArray,
+    xvals: np.array,
+    ax: matplotlib.axes.Axes,
+    color_above: str = "C3",
+    color_below: str = "C0",
 ) -> None:
     """plot lines with area fills between values and 0
 
@@ -141,7 +177,7 @@ def plot_lines_with_fill(
         0,
         plotdata,
         where=(plotdata > 0),
-        color="C3",
+        color=color_above,
         interpolate=True,
         alpha=0.5,
     )
@@ -150,7 +186,7 @@ def plot_lines_with_fill(
         0,
         plotdata,
         where=(plotdata < 0),
-        color="C0",
+        color=color_below,
         interpolate=True,
         alpha=0.5,
     )
@@ -194,6 +230,7 @@ def plot_anomaly_timeseries_year(
     years_past: tuple[int],
     years_now: tuple[int],
     savefile: str = "test.png",
+    color_kwargs: dict = {"color_above": "C3", "color_below": "C0"},
 ) -> None:
     """plotting routine for anomaly timeseries of annual data
 
@@ -210,7 +247,7 @@ def plot_anomaly_timeseries_year(
 
     fig, ax = plt.subplots(figsize=(7, 4))
 
-    plot_lines_with_fill(anom, xvals, ax)
+    plot_lines_with_fill(anom, xvals, ax, **color_kwargs)
 
     # ref lines
     time1 = xda.sel(time=slice(str(years_past[0]), str(years_past[1]))).time.values
@@ -220,7 +257,7 @@ def plot_anomaly_timeseries_year(
     plot_ref_hlines(
         xrefs=[xref1, xref2],
         yrefs=[0, now - past],
-        labels=[f"1961--1990: {past:.2f} {unit_}", f"1991--2020: {now:.2f} {unit_}"],
+        labels=[f"1961–1990: {past:.2f} {unit_}", f"1991–2020: {now:.2f} {unit_}"],
         colors=["k", "k"],
         ls=["-", ":"],
         ax=ax,
@@ -246,6 +283,7 @@ def plot_anomaly_timeseries_season(
     years_past: tuple[int],
     years_now: tuple[int],
     savefile: str = "test.png",
+    color_kwargs: dict = {"color_above": "C3", "color_below": "C0"},
 ) -> None:
     """plotting routine for anomaly timeseries of seasonal data
 
@@ -263,7 +301,7 @@ def plot_anomaly_timeseries_season(
         anom, past, now = calc_anoms_refs(xdaseas, years_past, years_now)
         xvals = anom.time.values
 
-        plot_lines_with_fill(anom, xvals, axit)
+        plot_lines_with_fill(anom, xvals, axit, **color_kwargs)
 
         # ref lines
         time1 = xdaseas.sel(
@@ -278,8 +316,8 @@ def plot_anomaly_timeseries_season(
             xrefs=[xref1, xref2],
             yrefs=[0, now - past],
             labels=[
-                f"1961--1990: {past:.2f} {unit_}",
-                f"1991--2020: {now:.2f} {unit_}",
+                f"1961–1990: {past:.2f} {unit_}",
+                f"1991–2020: {now:.2f} {unit_}",
             ],
             colors=["k", "k"],
             ls=["-", ":"],
@@ -288,7 +326,7 @@ def plot_anomaly_timeseries_season(
 
         # labeling
         axit.legend(title=f"{season} mean", loc="upper left")
-        plt.suptitle(f"{xda.name} seasonal anomalies areamean (reference: 1961--1990)")
+        plt.suptitle(f"{xda.name} seasonal anomalies areamean (reference: 1961–1990)")
         axit.set_title("")
         if ii % 2 == 0:
             axit.set_ylabel(f"{xda.name} [{unit_}]")
@@ -347,6 +385,8 @@ def plot_spatial_map_comparison(
     titlestr: str = "",
     vmin: float = None,
     vmax: float = None,
+    cmap_div_anom: str = "RdBu_r",
+    cmap_div_clim: str = "PuOr_r",
 ) -> None:
     """plot spatial maps comparison. this creates 3 plots in one row, where
     the first two plots are climatologial fields and the third is the difference
@@ -390,7 +430,7 @@ def plot_spatial_map_comparison(
             datplot = xdaiter
 
         if vmin < 0 and vmax > 0:
-            cmap = "coolwarm"
+            cmap = cmap_div_clim
         else:
             cmap = "viridis"
         if idx == 2:
@@ -400,7 +440,7 @@ def plot_spatial_map_comparison(
                     "orientation": "horizontal",
                     "label": f"{datplot.name} anomaly [{datplot.attrs['units']}]",
                 },
-                cmap="coolwarm",
+                cmap=cmap_div_anom,
                 center=0,
             )
         else:
@@ -413,11 +453,11 @@ def plot_spatial_map_comparison(
             )
         plots.append(p)
         if idx == 0:
-            ax.set_title("Past: 1961--1990")
+            ax.set_title("Past: 1961–1990")
         elif idx == 1:
-            ax.set_title("Recent: 1991--2020")
+            ax.set_title("Recent: 1991–2020")
         elif idx == 2:
-            ax.set_title("Difference recent - past")
+            ax.set_title("Anomaly: Recent - Past")
 
         ax.text(
             0.013,
@@ -450,6 +490,7 @@ def plot_spatial_map(
     titlestr: str = "",
     vmin: float = None,
     vmax: float = None,
+    cmap_div: str = "RdBu_r",
 ) -> None:
     """plot spatial map
 
@@ -468,8 +509,13 @@ def plot_spatial_map(
     else:
         datplot = xda
 
+    if vmin is None:
+        vmin = float(xda.min().values)
+    if vmax is None:
+        vmax = float(xda.max().values)
+
     if vmin < 0 and vmax > 0:
-        cmap = "coolwarm"
+        cmap = cmap_div
     else:
         cmap = "viridis"
 
@@ -495,6 +541,7 @@ def stampplot_time(
     vmax: float = None,
     savename: str = "test.png",
     title_suffix: str = "",
+    cmap_div: str = "RdBu_r",
 ) -> None:
     """creates a stampplot over the time dimension for the input data
 
@@ -527,7 +574,7 @@ def stampplot_time(
         xdaiter = xda.sel(time=timestep)
         ax = next(axit)
         if vmin < 0 and vmax > 0:
-            cmap = "coolwarm"
+            cmap = cmap_div
         else:
             cmap = "viridis"
         add_cartopy_styling(ax, gridlines=False)
@@ -561,7 +608,7 @@ def stampplot_time(
     )
     cb.ax.tick_params(labelsize=fontsize)
     cb.set_label(f"[{xda.attrs['units']}]", size=fontsize)
-    cb.ax.set_title(f"{xda.name}{title_suffix}", fontsize=fontsize + 2)
+    cb.ax.set_title(f"{xda.name}:{title_suffix}", fontsize=fontsize + 2)
     cb.ax.xaxis.set_tick_params(color=fg_color)
     cb.outline.set_edgecolor(fg_color)
     plt.setp(plt.getp(cb.ax.axes, "xticklabels"), color=fg_color)
@@ -646,7 +693,10 @@ def standardize_data(
 
 
 def plot_warming_stripes(
-    grouped_xda: xr.DataArray, title_str: str, savename: str = "test.png"
+    grouped_xda: xr.DataArray,
+    title_str: str,
+    savename: str = "test.png",
+    cmap: str = "RdBu_r",
 ) -> None:
     """plotting routines for warming stripes
 
@@ -661,6 +711,7 @@ def plot_warming_stripes(
     fig, ax = plt.subplots(figsize=(9, ylen / 2 - 1), layout="constrained")
     grouped_xda.plot(
         ax=ax,
+        cmap=cmap,
         cbar_kwargs={
             "label": "Standardized anomaly",
             "aspect": 20 * (ylen / 13),
@@ -670,23 +721,26 @@ def plot_warming_stripes(
     ax.set_yticklabels(labels=labels)
     ax.set_ylabel("")
     ax.set_xlabel("")
-    plt.title(f"{title_str} standardized anomalies (ref. 1961--1990)")
+    plt.title(f"{title_str} standardized anomalies (ref. 1961–1990)")
     plt.savefig(savename, bbox_inches="tight")
     plt.close()
     return None
 
 
 if __name__ == "__main__":
-    gen_anom_ts = True
-    gen_clim_map = True
-    gen_stampplots = True
-    gen_stampplots_anomaly = True
-    gen_group_significance = True
-    gen_warming_stripes = True
-
     config = get_config(conf_file="config.toml")
     log = logger()
     log.info("Starting plotting")
+
+    gen_anom_ts = config.PLOT.ANOMALY_TIMESERIES
+    gen_clim_map = config.PLOT.CLIMATOLOGY_MAP
+    gen_stampplots = config.PLOT.STAMP_PLOTS
+    gen_stampplots_anomaly = config.PLOT.STAMP_PLOTS_ANOMALY
+    gen_group_significance = config.PLOT.GROUP_SIGNIFICANCE
+    gen_warming_stripes = config.PLOT.WARMING_STRIPES
+
+    # set custom font
+    configure_font()
 
     # get some variables from config file
     year_start = config.GENERAL.YEAR_START
@@ -746,6 +800,11 @@ if __name__ == "__main__":
                     aggperiod=aggperiod,
                 )
             )
+            if group in ["precipitation", "snow", "runoff"]:
+                color_kwargs = {"color_above": "C0", "color_below": "C3"}
+            else:
+                color_kwargs = {"color_above": "C3", "color_below": "C0"}
+
             if aggperiod in [
                 "yea",
                 "hydrological_year",
@@ -753,11 +812,19 @@ if __name__ == "__main__":
                 "winter_halfyear",
             ]:
                 plot_anomaly_timeseries_year(
-                    amean, years_past, years_now, savefile=pngfile
+                    amean,
+                    years_past,
+                    years_now,
+                    savefile=pngfile,
+                    color_kwargs=color_kwargs,
                 )
             elif aggperiod == "sea":
                 plot_anomaly_timeseries_season(
-                    amean, years_past, years_now, savefile=pngfile
+                    amean,
+                    years_past,
+                    years_now,
+                    savefile=pngfile,
+                    color_kwargs=color_kwargs,
                 )
 
         # plot spatial climatological maps
@@ -768,7 +835,7 @@ if __name__ == "__main__":
             pngfile_anomaly = str(outfile).replace("PLTTYPE", "clim_anomaly")
             pngfile_comparison = str(outfile).replace("PLTTYPE", "clim_comparison")
 
-            cmean_past = xr.open_dataarray(
+            cmean_past = xr.open_dataset(
                 get_eval_outfile_path_group(
                     str_=f"clim_{years_past[0]}_{years_past[1]}",
                     out_dir=out_dir,
@@ -776,8 +843,8 @@ if __name__ == "__main__":
                     index=index,
                     aggperiod=aggperiod,
                 )
-            )
-            cmean_now = xr.open_dataarray(
+            )[index]
+            cmean_now = xr.open_dataset(
                 get_eval_outfile_path_group(
                     str_=f"clim_{years_now[0]}_{years_now[1]}",
                     out_dir=out_dir,
@@ -785,13 +852,20 @@ if __name__ == "__main__":
                     index=index,
                     aggperiod=aggperiod,
                 )
-            )
+            )[index]
 
             # get global vmin, vmax
             vmin, vmax = get_vmin_vmax(arr=[cmean_now, cmean_past], type_="99p")
             vmin_anom, vmax_anom = get_vmin_vmax(
                 arr=cmean_now - cmean_past, type_="99p"
             )
+
+            if group in ["precipitation", "snow", "runoff"]:
+                cmap_div = "RdBu"
+                cmap_div_clim = "PuOr"
+            else:
+                cmap_div = "RdBu_r"
+                cmap_div_clim = "PuOr_r"
 
             if aggperiod in [
                 "yea",
@@ -801,35 +875,40 @@ if __name__ == "__main__":
             ]:
                 plot_spatial_map(
                     cmean_past,
-                    titlestr=f"{index} annual mean {years_past[0]}--{years_past[1]}",
+                    titlestr=f"{index}: annual mean {years_past[0]}–{years_past[1]}",
                     savefile=pngfile_past,
                     vmin=vmin,
                     vmax=vmax,
+                    cmap_div=cmap_div,
                 )
                 plot_spatial_map(
                     cmean_now,
-                    titlestr=f"{index} annual mean {years_now[0]}--{years_now[1]}",
+                    titlestr=f"{index}: annual mean {years_now[0]}–{years_now[1]}",
                     savefile=pngfile_now,
                     vmin=vmin,
                     vmax=vmax,
+                    cmap_div=cmap_div,
                 )
                 anom = cmean_now - cmean_past
                 anom.attrs["units"] = unit
                 plot_spatial_map(
                     anom,
-                    titlestr=f"{index} annual mean anomaly {years_now[0]}--{years_now[1]} - {years_past[0]}--{years_past[1]}",
+                    titlestr=f"{index}: annual mean anomaly {years_now[0]}–{years_now[1]} - {years_past[0]}–{years_past[1]}",
                     savefile=pngfile_anomaly,
                     vmin=vmin_anom,
                     vmax=vmax_anom,
+                    cmap_div=cmap_div,
                 )
                 plot_spatial_map_comparison(
                     cmean_past,
                     cmean_now,
                     anom,
-                    titlestr=f"{index} annual mean climatologies and difference",
+                    titlestr=f"{index}: annual mean climatologies and difference",
                     savefile=pngfile_comparison,
                     vmin=vmin,
                     vmax=vmax,
+                    cmap_div_anom=cmap_div,
+                    cmap_div_clim=cmap_div_clim,
                 )
             elif aggperiod == "sea":
                 for xdaiter_past in cmean_past:
@@ -837,38 +916,43 @@ if __name__ == "__main__":
                     xdaiter_now = cmean_now.sel(season=season_str)
                     plot_spatial_map(
                         xdaiter_past,
-                        titlestr=f"{index} seasonal {season_str} mean {years_past[0]}--{years_past[1]}",
+                        titlestr=f"{index}: seasonal {season_str} mean {years_past[0]}–{years_past[1]}",
                         savefile=pngfile_past.replace(".png", f"_{season_str}.png"),
                         vmin=vmin,
                         vmax=vmax,
+                        cmap_div=cmap_div,
                     )
                     plot_spatial_map(
                         xdaiter_now,
-                        titlestr=f"{index} seasonal {season_str} mean {years_now[0]}--{years_now[1]}",
+                        titlestr=f"{index}: seasonal {season_str} mean {years_now[0]}–{years_now[1]}",
                         savefile=pngfile_now.replace(".png", f"_{season_str}.png"),
                         vmin=vmin,
                         vmax=vmax,
+                        cmap_div=cmap_div,
                     )
                     anom = xdaiter_now - xdaiter_past
                     anom.attrs["units"] = unit
                     vmin_anom, vmax_anom = get_vmin_vmax(arr=anom, type_="99p")
                     plot_spatial_map(
                         anom,
-                        titlestr=f"{index} seasonal {season_str} mean anomaly {years_now[0]}--{years_now[1]} - {years_past[0]}--{years_past[1]}",
+                        titlestr=f"{index}: seasonal {season_str} mean anomaly {years_now[0]}–{years_now[1]} - {years_past[0]}–{years_past[1]}",
                         savefile=pngfile_anomaly.replace(".png", f"_{season_str}.png"),
                         vmin=vmin_anom,
                         vmax=vmax_anom,
+                        cmap_div=cmap_div,
                     )
                     plot_spatial_map_comparison(
                         xdaiter_past,
                         xdaiter_now,
                         anom,
-                        titlestr=f"{index} seasonal {season_str} mean climatologies and difference",
+                        titlestr=f"{index}: seasonal {season_str} mean climatologies and difference",
                         savefile=pngfile_comparison.replace(
                             ".png", f"_{season_str}.png"
                         ),
                         vmin=vmin,
                         vmax=vmax,
+                        cmap_div_anom=cmap_div,
+                        cmap_div_clim=cmap_div_clim,
                     )
 
         # spatial stampplots
@@ -887,6 +971,12 @@ if __name__ == "__main__":
                 xda.attrs["units"]
             except KeyError:
                 xda.attrs["units"] = unit
+
+            if group in ["precipitation", "snow", "runoff"]:
+                cmap_div = "RdBu"
+            else:
+                cmap_div = "RdBu_r"
+
             if aggperiod in [
                 "yea",
                 "hydrological_year",
@@ -899,6 +989,7 @@ if __name__ == "__main__":
                     vmax=vmax,
                     title_suffix=" annual",
                     savename=pngfile,
+                    cmap_div=cmap_div,
                 )
             elif aggperiod == "sea":
                 for season_str, xdaiter in xda.groupby("time.season"):
@@ -908,6 +999,7 @@ if __name__ == "__main__":
                         vmax=vmax,
                         title_suffix=f" {season_str}",
                         savename=pngfile.replace(".png", f"_{season_str}.png"),
+                        cmap_div=cmap_div,
                     )
 
         # spatial stampplots of anomalies
@@ -921,6 +1013,11 @@ if __name__ == "__main__":
                 engine="h5netcdf",
                 decode_timedelta=False,
             )[index]
+
+            if group in ["precipitation", "snow", "runoff"]:
+                cmap_div = "RdBu"
+            else:
+                cmap_div = "RdBu_r"
 
             if aggperiod in [
                 "yea",
@@ -940,6 +1037,7 @@ if __name__ == "__main__":
                     vmax=vmax,
                     title_suffix=" annual\nanomalies 1961-1990",
                     savename=pngfile,
+                    cmap_div=cmap_div,
                 )
             elif aggperiod == "sea":
                 for season_str, xdaiter in xda.groupby("time.season"):
@@ -955,175 +1053,184 @@ if __name__ == "__main__":
                         vmax=vmax,
                         title_suffix=f" {season_str}\nanomalies 1961-1990",
                         savename=pngfile.replace(".png", f"_{season_str}.png"),
+                        cmap_div=cmap_div,
                     )
 
-    ## create plots for groupings
-    df_groups = pd.DataFrame(
-        clim_ind_inputs,
-        columns=[
-            "index",
-            "group",
-            "parameter",
-            "description",
-            "aggperiod",
-            "kwargs",
-            "xclim_func",
-            "units",
-        ],
-    )
-    ## modify the groups according to the following
-    # radiation are only 2 indicators, put them into temperature because
-    #     they are highly correlated
-    # runoff is added to snow, similarly because of how they are related
-    # mixed indicators are moved into either temperature,
-    #     precipitation, or humidity, depending on the indicator
-    df_groups["group_plots"] = df_groups["group"]
-    df_groups["aggperiod_plots"] = df_groups["aggperiod"]
-    df_groups.loc[df_groups["group_plots"].isin(["radiation"]), "group_plots"] = (
-        "temperature"
-    )
-    df_groups.loc[df_groups["group_plots"].isin(["runoff"]), "group_plots"] = "snow"
-    df_groups.loc[
-        df_groups["aggperiod_plots"].isin(["summer_halfyear"]), "aggperiod_plots"
-    ] = "yea"
-    df_groups.loc[
-        df_groups["aggperiod_plots"].isin(["winter_halfyear"]), "aggperiod_plots"
-    ] = "yea"
-    df_groups.loc[
-        df_groups["aggperiod_plots"].isin(["hydrological_year"]), "aggperiod_plots"
-    ] = "yea"
-    df_groups.loc[df_groups["index"].isin(["BIO08", "BIO09"]), "group_plots"] = (
-        "temperature"
-    )
-    df_groups.loc[df_groups["index"].isin(["BIO18", "BIO19"]), "group_plots"] = (
-        "precipitation"
-    )
-    df_groups.loc[df_groups["index"].isin(["SHMI"]), "group_plots"] = "temperature"
-    df_groups.loc[
-        df_groups["index"].isin(["ET0_Qcold", "ET0_Qdry", "ET0_Qwarm", "ET0_Qwet"]),
-        "group_plots",
-    ] = "humidity"
-
-    for (grouping, aggp), df_iter in df_groups.groupby(
-        ["group_plots", "aggperiod_plots"]
-    ):
-        log.info(
-            f"Iterating with {grouping} n = {df_iter.shape[0]} with aggperiod {aggp}"
+    if any([gen_group_significance, gen_warming_stripes]):
+        ## create plots for groupings
+        df_groups = pd.DataFrame(
+            clim_ind_inputs,
+            columns=[
+                "index",
+                "group",
+                "parameter",
+                "description",
+                "aggperiod",
+                "kwargs",
+                "xclim_func",
+                "units",
+            ],
         )
+        ## modify the groups according to the following
+        # radiation are only 2 indicators, put them into temperature because
+        #     they are highly correlated
+        # runoff is added to snow, similarly because of how they are related
+        # mixed indicators are moved into either temperature,
+        #     precipitation, or humidity, depending on the indicator
+        df_groups["group_plots"] = df_groups["group"]
+        df_groups["aggperiod_plots"] = df_groups["aggperiod"]
+        df_groups.loc[df_groups["group_plots"].isin(["radiation"]), "group_plots"] = (
+            "temperature"
+        )
+        df_groups.loc[df_groups["group_plots"].isin(["runoff"]), "group_plots"] = "snow"
+        df_groups.loc[
+            df_groups["aggperiod_plots"].isin(["summer_halfyear"]), "aggperiod_plots"
+        ] = "yea"
+        df_groups.loc[
+            df_groups["aggperiod_plots"].isin(["winter_halfyear"]), "aggperiod_plots"
+        ] = "yea"
+        df_groups.loc[
+            df_groups["aggperiod_plots"].isin(["hydrological_year"]), "aggperiod_plots"
+        ] = "yea"
+        df_groups.loc[df_groups["index"].isin(["BIO08", "BIO09"]), "group_plots"] = (
+            "temperature"
+        )
+        df_groups.loc[df_groups["index"].isin(["BIO18", "BIO19"]), "group_plots"] = (
+            "precipitation"
+        )
+        df_groups.loc[df_groups["index"].isin(["SHMI"]), "group_plots"] = "temperature"
+        df_groups.loc[
+            df_groups["index"].isin(["ET0_Qcold", "ET0_Qdry", "ET0_Qwarm", "ET0_Qwet"]),
+            "group_plots",
+        ] = "humidity"
 
-        # significance plots
-        if gen_group_significance:
-            log.info("Plot grouped significance")
-            outfile = Path(
-                plot_dir,
-                "grouped_plots",
-                "significance",
-                f"{grouping}_{aggp}_PLTTYPE.png",
+        for (grouping, aggp), df_iter in df_groups.groupby(
+            ["group_plots", "aggperiod_plots"]
+        ):
+            log.info(
+                f"Iterating with {grouping} n = {df_iter.shape[0]} with aggperiod {aggp}"
             )
-            outfile.parent.mkdir(exist_ok=True, parents=True)
-            pngfile = str(outfile).replace("PLTTYPE", "significance")
 
-            xda_group = xr.concat(
-                [
-                    xr.open_dataarray(
-                        get_eval_outfile_path_group(
-                            str_="significance",
-                            out_dir=out_dir,
-                            group=group_,
-                            index=index,
-                            aggperiod=aggperiod_,
-                        )
-                    )
-                    for index, group_, aggperiod_ in zip(
-                        df_iter["index"], df_iter["group"], df_iter["aggperiod"]
-                    )
-                ],
-                dim="group",
-                coords="minimal",
-                compat="override",
-            )
-            group_len = df_iter.shape[0]
-            xda_group_sig = (
-                xr.where(xda_group < 0.05, 1, 0).sum(dim="group") / group_len * 100
-            )
-            xda_group_sig = xda_group_sig.where(
-                xda_group.isel(group=0).notnull(), np.nan
-            )
-            xda_group_sig.attrs["units"] = "%"
-            xda_group_sig.name = "Portion of group"
-
-            if aggp in [
-                "yea",
-                "hydrological_year",
-                "summer_halfyear",
-                "winter_halfyear",
-            ]:
-                plot_spatial_map(
-                    xda_group_sig,
-                    titlestr=f"Portion of group (n={group_len}) with significant changes\nfrom 1961--1990 to 1991--2020 for {grouping} and {aggp}",
-                    savefile=pngfile,
-                    vmin=0,
-                    vmax=100,
+            # significance plots
+            if gen_group_significance:
+                log.info("Plot grouped significance")
+                outfile = Path(
+                    plot_dir,
+                    "grouped_plots",
+                    "significance",
+                    f"{grouping}_{aggp}_PLTTYPE.png",
                 )
-            elif aggp == "sea":
-                for xda_group_sig_iter in xda_group_sig:
-                    xda_group_sig_iter.attrs["units"] = "%"
-                    season_str = xda_group_sig_iter.season.values
+                outfile.parent.mkdir(exist_ok=True, parents=True)
+                pngfile = str(outfile).replace("PLTTYPE", "significance")
+
+                xda_group = xr.concat(
+                    [
+                        xr.open_dataset(
+                            get_eval_outfile_path_group(
+                                str_="significance",
+                                out_dir=out_dir,
+                                group=group_,
+                                index=index,
+                                aggperiod=aggperiod_,
+                            )
+                        )[index]
+                        for index, group_, aggperiod_ in zip(
+                            df_iter["index"], df_iter["group"], df_iter["aggperiod"]
+                        )
+                    ],
+                    dim="group",
+                    coords="minimal",
+                    compat="override",
+                )
+                group_len = df_iter.shape[0]
+                xda_group_sig = (
+                    xr.where(xda_group < 0.05, 1, 0).sum(dim="group") / group_len * 100
+                )
+                xda_group_sig = xda_group_sig.where(
+                    xda_group.isel(group=0).notnull(), np.nan
+                )
+                xda_group_sig.attrs["units"] = "%"
+                xda_group_sig.name = "Portion of group"
+
+                if aggp in [
+                    "yea",
+                    "hydrological_year",
+                    "summer_halfyear",
+                    "winter_halfyear",
+                ]:
                     plot_spatial_map(
-                        xda_group_sig_iter,
-                        titlestr=f"Portion of group (n={group_len}) with significant changes\nfrom 1961--1990 to 1991--2020 for {grouping} and {season_str}",
-                        savefile=pngfile.replace(".png", f"_{season_str}.png"),
+                        xda_group_sig,
+                        titlestr=f"Portion of group (n={group_len}) with significant changes\nfrom 1961–1990 to 1991–2020 for {grouping} and {aggp}",
+                        savefile=pngfile,
                         vmin=0,
                         vmax=100,
                     )
-
-        # warming stripes
-        if gen_warming_stripes:
-            # grouped plots by indicator category
-            log.info("Plot warming stripes")
-            outfile = Path(
-                plot_dir,
-                "grouped_plots",
-                "warming_stripes",
-                f"{grouping}_{aggp}_PLTTYPE.png",
-            )
-            outfile.parent.mkdir(exist_ok=True, parents=True)
-            pngfile = str(outfile).replace("PLTTYPE", "warming_stripes")
-
-            xda_group = xr.concat(
-                [
-                    xr.open_dataarray(
-                        get_eval_outfile_path_group(
-                            str_="areamean",
-                            out_dir=out_dir,
-                            group=group_,
-                            index=index,
-                            aggperiod=aggperiod_,
+                elif aggp == "sea":
+                    for xda_group_sig_iter in xda_group_sig:
+                        xda_group_sig_iter.attrs["units"] = "%"
+                        season_str = xda_group_sig_iter.season.values
+                        plot_spatial_map(
+                            xda_group_sig_iter,
+                            titlestr=f"Portion of group (n={group_len}) with significant changes\nfrom 1961–1990 to 1991–2020 for {grouping} and {season_str}",
+                            savefile=pngfile.replace(".png", f"_{season_str}.png"),
+                            vmin=0,
+                            vmax=100,
                         )
-                    ).expand_dims({"group": [index]})
-                    for index, group_, aggperiod_ in zip(
-                        df_iter["index"], df_iter["group"], df_iter["aggperiod"]
-                    )
-                ],
-                dim="group",
-                coords="minimal",
-                compat="override",
-                join="override",
-            )
-            group_len = df_iter.shape[0]
 
-            xda_group.name = f"{grouping}_{aggp}"
-
-            if aggp == "yea":
-                xda_iter = standardize_data(xda_group)
-                plot_warming_stripes(
-                    xda_iter, title_str=f"{grouping} annual", savename=pngfile
+            # warming stripes
+            if gen_warming_stripes:
+                # grouped plots by indicator category
+                log.info("Plot warming stripes")
+                outfile = Path(
+                    plot_dir,
+                    "grouped_plots",
+                    "warming_stripes",
+                    f"{grouping}_{aggp}_PLTTYPE.png",
                 )
-            elif aggp == "sea":
-                for season, xda_group_iter in xda_group.groupby("time.season"):
-                    xda_group_iter_norm = standardize_data(xda_group_iter)
+                outfile.parent.mkdir(exist_ok=True, parents=True)
+                pngfile = str(outfile).replace("PLTTYPE", "warming_stripes")
+
+                xda_group = xr.concat(
+                    [
+                        xr.open_dataarray(
+                            get_eval_outfile_path_group(
+                                str_="areamean",
+                                out_dir=out_dir,
+                                group=group_,
+                                index=index,
+                                aggperiod=aggperiod_,
+                            )
+                        ).expand_dims({"group": [index]})
+                        for index, group_, aggperiod_ in zip(
+                            df_iter["index"], df_iter["group"], df_iter["aggperiod"]
+                        )
+                    ],
+                    dim="group",
+                    coords="minimal",
+                    compat="override",
+                    join="override",
+                )
+                group_len = df_iter.shape[0]
+                if grouping in ["precipitation", "snow"]:
+                    cmap = "RdBu"
+                else:
+                    cmap = "RdBu_r"
+                xda_group.name = f"{grouping}_{aggp}"
+
+                if aggp == "yea":
+                    xda_iter = standardize_data(xda_group)
                     plot_warming_stripes(
-                        xda_group_iter_norm,
-                        title_str=f"{grouping} seasonal {season}",
-                        savename=pngfile.replace(".png", f"_{season}.png"),
+                        xda_iter,
+                        title_str=f"{grouping}: annual",
+                        savename=pngfile,
+                        cmap=cmap,
                     )
+                elif aggp == "sea":
+                    for season, xda_group_iter in xda_group.groupby("time.season"):
+                        xda_group_iter_norm = standardize_data(xda_group_iter)
+                        plot_warming_stripes(
+                            xda_group_iter_norm,
+                            title_str=f"{grouping}: seasonal {season}",
+                            savename=pngfile.replace(".png", f"_{season}.png"),
+                            cmap=cmap,
+                        )

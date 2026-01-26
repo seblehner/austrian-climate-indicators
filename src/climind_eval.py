@@ -110,11 +110,15 @@ if __name__ == "__main__":
 
         outpath_ind = Path(out_dir, group, index, aggperiod)
 
-        xda = xr.open_mfdataset(
-            "/".join([str(outpath_ind), "*.nc"]),
-            engine="h5netcdf",
-            decode_timedelta=False,
-        )[index]
+        try:
+            datapath = "/".join([str(outpath_ind), "*.nc"])
+            xda = xr.open_mfdataset(
+                datapath,
+                engine="h5netcdf",
+                decode_timedelta=False,
+            )[index]
+        except OSError as err:
+            log.info(f"Could not open dataset for {datapath} with error: {err}")
 
         ## calc areamean per aggperiod
         ameanfile = get_eval_outfile_path("areamean")
@@ -156,6 +160,10 @@ if __name__ == "__main__":
             else:
                 raise ValueError(f"Incompatible {aggperiod = }")
             clim_past.attrs["units"] = unit
+
+            # add crs information
+            clim_past = clim_past.rio.write_crs(int(epsg))
+
             clim_past.compute().to_netcdf(climpastfile, engine="h5netcdf")
 
         if climnowfile.exists():
@@ -182,6 +190,10 @@ if __name__ == "__main__":
             else:
                 raise ValueError(f"Incompatible {aggperiod = }")
             clim_now.attrs["units"] = unit
+
+            # add crs information
+            clim_now = clim_now.rio.write_crs(int(epsg))
+
             clim_now.compute().to_netcdf(climnowfile, engine="h5netcdf")
 
         ## statistical significance test between clim mean
@@ -197,4 +209,8 @@ if __name__ == "__main__":
                 else "season"
             )
             _, pvals = MWU(clim_past_sel, clim_now_sel, dim=aggdim)
+
+            # add crs information
+            pvals = pvals.rio.write_crs(int(epsg))
+
             pvals.to_netcdf(pvalsfile, engine="h5netcdf")
