@@ -37,6 +37,7 @@ def configure_font():
     # prepended to the sans-serif rcParam so matplotlib will use it for plots.
     # If the font is not found a warning is emitted but execution continues and
     # matplotlib will fall back to the next available sans-serif font.
+    # source: https://fonts.adobe.com/fonts/source-sans-3
     _climind_preferred_font = "Source Sans 3"
     # Note: the following 2 lines manually add for user-installed fonts
     # in ~/.local/share/fonts in case they are not found in the system
