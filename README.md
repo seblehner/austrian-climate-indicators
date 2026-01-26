@@ -5,7 +5,7 @@
     <a href="https://seblehner.github.io/austrian-climate-indicators">
         <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub-Pages-blue"></a>
     <a href="https://doi.org/10.5281/zenodo.16928609">
-        <img alt="Zenodo data doi" src="https://zenodo.org/badge/DOI/10.5281/zenodo.16928609.svg"></a>
+        <img alt="Zenodo data doi" src="https://img.shields.io/badge/DOI-10.5281/zenodo.16928609-blue"></a>
     <a href="https://github.com/psf/black">
         <img alt="Python code style: black" src="https://img.shields.io/badge/codestyle-black-000000.svg"></a>
 </p>
