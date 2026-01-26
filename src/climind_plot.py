@@ -834,7 +834,7 @@ if __name__ == "__main__":
             pngfile_anomaly = str(outfile).replace("PLTTYPE", "clim_anomaly")
             pngfile_comparison = str(outfile).replace("PLTTYPE", "clim_comparison")
 
-            cmean_past = xr.open_dataarray(
+            cmean_past = xr.open_dataset(
                 get_eval_outfile_path_group(
                     str_=f"clim_{years_past[0]}_{years_past[1]}",
                     out_dir=out_dir,
@@ -842,8 +842,8 @@ if __name__ == "__main__":
                     index=index,
                     aggperiod=aggperiod,
                 )
-            )
-            cmean_now = xr.open_dataarray(
+            )[index]
+            cmean_now = xr.open_dataset(
                 get_eval_outfile_path_group(
                     str_=f"clim_{years_now[0]}_{years_now[1]}",
                     out_dir=out_dir,
@@ -851,7 +851,7 @@ if __name__ == "__main__":
                     index=index,
                     aggperiod=aggperiod,
                 )
-            )
+            )[index]
 
             # get global vmin, vmax
             vmin, vmax = get_vmin_vmax(arr=[cmean_now, cmean_past], type_="99p")
@@ -1124,7 +1124,7 @@ if __name__ == "__main__":
 
                 xda_group = xr.concat(
                     [
-                        xr.open_dataarray(
+                        xr.open_dataset(
                             get_eval_outfile_path_group(
                                 str_="significance",
                                 out_dir=out_dir,
@@ -1132,7 +1132,7 @@ if __name__ == "__main__":
                                 index=index,
                                 aggperiod=aggperiod_,
                             )
-                        )
+                        )[index]
                         for index, group_, aggperiod_ in zip(
                             df_iter["index"], df_iter["group"], df_iter["aggperiod"]
                         )
