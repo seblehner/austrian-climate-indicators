@@ -55,17 +55,16 @@ _NO_XCLIM_IMPLEMENTATION_ = [
     "API28_Q95",
     "PCI_Q95",
 ]
-_XCLIM_PERCENTILE_THRES_INDICES = [
+_XCLIM_NUM_DAYS_TO_PERCENT = [
     "TN10p",
     "TX10p",
     "TN90p",
     "TX90p",
-    "R75p",
-    "R90p",
-    "R95p",
-    "R99p",
-    "HSF",
-    "CSF",
+]
+_XCLIM_FRACTION_TO_PERCENT = [
+    "R90pTOT",
+    "R95pTOT",
+    "R99pTOT",
 ]
 
 
@@ -131,11 +130,12 @@ def postprocess_climind(climind: xr.DataArray, index: str, freq: str) -> xr.Data
             dim="time",
         )
 
-    if index in _XCLIM_PERCENTILE_THRES_INDICES:
-        # output is days, but index should be percentage => needs normalisation
+    if index in _XCLIM_NUM_DAYS_TO_PERCENT:
+        # output is days, but index should be percentage => needs normalisation and x100
         if freq == "YS":
             days_in_year = int(climind.time.dt.days_in_year)
             climind = climind.groupby("time.year").map(lambda x: x / days_in_year)
+            climind = climind * 100
         elif freq == "QE-FEB":
             # when xclim is invoked with threshold data for multiple seasons
             # xclim will calculate every combination (like a tensor product)
@@ -149,6 +149,12 @@ def postprocess_climind(climind: xr.DataArray, index: str, freq: str) -> xr.Data
             _xdamon = xr.DataArray(data=_months_vals, coords={"time": _months})
             days_in_season = _xdamon.groupby("time.season").sum()
             climind = climind.groupby("time.season") / days_in_season
+            climind = climind * 100
+        climind.attrs["units"] = "%"
+    if index in _XCLIM_FRACTION_TO_PERCENT:
+        # output is fraction, but index should be percentage => x100
+        climind = climind * 100
+        climind.attrs["units"] = "%"
     elif index == "EID":
         # EID is calculated using a differently named function which is why some
         # attributes need to be overwritten
@@ -245,6 +251,12 @@ def preprocess_climind(xda_dict: dict[xr.DataArray], index: str) -> dict[xr.Data
         xda_iter.attrs["units"] = "kg m-2 month-1"
         xda_dict["pr"] = xda_iter
         return xda_dict
+    elif index == "SDII":
+        # SDII requires specific units: "mm day-1"
+        xda_iter = xda_dict["pr"]
+        xda_iter.attrs["units"] = "mm day-1"
+        xda_dict["pr"] = xda_iter
+        return xda_dict
     else:
         return xda_dict
 
@@ -290,7 +302,20 @@ def _xclim_mapping(
             xclim_module_levels[2],
         )
     xda = preprocess_climind(xda_dict=xda, index=index)
-    climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
+    try:
+        climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
+    except xc.core._exceptions.ValidationError as ve:
+        # necessary exception handling when snow_depth is an input variable
+        log = _get_logger()
+        log.error(f"xclim ValidationError: {ve}")
+        log.debug(
+            "Resampling input data manually to daily frequency for proper data validation"
+        )
+        xda = {
+            key: val.resample(time="D").mean(keep_attrs=True)
+            for key, val in xda.items()
+        }
+        climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
     climind = postprocess_climind(climind=climind, index=index, freq=freq)
     return climind
 
@@ -337,6 +362,7 @@ def self_impl(
     elif index in ["RR90pct", "RR95pct"]:
         tmp = xda[0].where(xda[0] >= 1, other=np.nan)  # only wet days
         climind = tmp.resample(time=freq).quantile(**extra_kwargs)
+        climind.attrs["units"] = xda[0].attrs["units"]
     elif index == "ET0_Qcold":
         ET0 = _get_xda_by_name_from_list(xda, "ET0")
         TG = _get_xda_by_name_from_list(xda, "TG")
@@ -370,13 +396,21 @@ def self_impl(
     elif index == "ET0_seasonality":
         climind = xda[0].resample(time="1ME").std().resample(time=freq).mean()
     elif index == "SPEI90_th-2":
-        climind = xda[0].where(xda[0] < -2, np.nan).resample(time=freq).sum()
+        climind = xda[0].where(xda[0] < -2, np.nan).resample(time=freq).count()
+        climind = climind.where(_get_xy_nanmask_(xda[0]), np.nan)
+        climind.attrs["units"] = "days"
     elif index == "SPEI90_th-1":
-        climind = xda[0].where(xda[0] < -1, np.nan).resample(time=freq).sum()
+        climind = xda[0].where(xda[0] < -1, np.nan).resample(time=freq).count()
+        climind = climind.where(_get_xy_nanmask_(xda[0]), np.nan)
+        climind.attrs["units"] = "days"
     elif index == "SPEI90_th+1":
-        climind = xda[0].where(xda[0] > +1, np.nan).resample(time=freq).sum()
+        climind = xda[0].where(xda[0] > +1, np.nan).resample(time=freq).count()
+        climind = climind.where(_get_xy_nanmask_(xda[0]), np.nan)
+        climind.attrs["units"] = "days"
     elif index == "SPEI90_th+2":
-        climind = xda[0].where(xda[0] > +2, np.nan).resample(time=freq).sum()
+        climind = xda[0].where(xda[0] > +2, np.nan).resample(time=freq).count()
+        climind = climind.where(_get_xy_nanmask_(xda[0]), np.nan)
+        climind.attrs["units"] = "days"
     elif index == "SHMI":
         TG = _get_xda_by_name_from_list(xda, "TG")
         RR = _get_xda_by_name_from_list(xda, "RR")
@@ -391,6 +425,7 @@ def self_impl(
             },
             axis=0,
         )
+        climind.attrs["units"] = "degC mm-1"
     elif index in [
         "HS_Q95",
         "HSfr_Q95",
@@ -400,6 +435,7 @@ def self_impl(
         "snowmelt_Q95",
     ]:
         climind = xda[0].resample(time=freq).quantile(0.95)
+        climind.attrs["units"] = xda[0].attrs["units"]
     elif index == "NSD_72h":
         climind = xda[0].rolling(time=3).sum().resample(time=freq).max()
     elif index == "continentality":
@@ -407,6 +443,7 @@ def self_impl(
         warmest_month = TG_mean.resample(time="YS").max(dim="time")
         coldest_month = TG_mean.resample(time="YS").min(dim="time")
         climind = warmest_month - coldest_month
+        climind.attrs["units"] = "degC"
     elif index == "KYS":
         climind = _calc_kysely_(xrda=xda[0], freq=freq)
     elif index == "spring_backlash":
@@ -644,6 +681,7 @@ def _calc_kysely_(xrda: xr.DataArray, freq: str) -> xr.DataArray:
 
     # set original nan gridcells back to nan
     fin = da_out.where(nanmask, np.nan)
+    fin.attrs["units"] = "days"
     return fin
 
 
@@ -733,6 +771,7 @@ def _calc_api_(
 
     # set original nan gridcells back to nan
     fin = fin.where(nanmask, np.nan)
+    fin.attrs["units"] = "kg m-2 day-1"
     return fin
 
 
@@ -742,4 +781,5 @@ def _calc_pci_(rr_da: xr.DataArray, freq: str) -> xr.DataArray:
     monthlies_sq_sum = (rr_da.resample(time="1ME").sum() ** 2).resample(time=freq).sum()
     pci = monthlies_sq_sum / total_sq * 100
     pci.name = "pci"
+    pci.attrs["units"] = "1"
     return pci
