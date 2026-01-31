@@ -61,6 +61,14 @@ _XCLIM_NUM_DAYS_TO_PERCENT = [
     "TN90p",
     "TX90p",
 ]
+_XCLIM_THRESHOLD_SEASON_TENSOR = [
+    "R75p",
+    "R90p",
+    "R95p",
+    "R99p",
+    "HSF",
+    "CSF",
+]
 _XCLIM_FRACTION_TO_PERCENT = [
     "R90pTOT",
     "R95pTOT",
@@ -151,6 +159,14 @@ def postprocess_climind(climind: xr.DataArray, index: str, freq: str) -> xr.Data
             climind = climind.groupby("time.season") / days_in_season
             climind = climind * 100
         climind.attrs["units"] = "%"
+    if index in _XCLIM_THRESHOLD_SEASON_TENSOR:
+        if freq == "QE-FEB":
+            # when xclim is invoked with threshold data for multiple seasons
+            # xclim will calculate every combination (like a tensor product)
+            # but we are only in the combination of the same seasons, because
+            # for example, the result for MAM with the threshold from DJF is not
+            # needed. therefor this small functions selects only the relevant seasons
+            climind = select_same_seas(_xda=climind)
     if index in _XCLIM_FRACTION_TO_PERCENT:
         # output is fraction, but index should be percentage => x100
         climind = climind * 100
