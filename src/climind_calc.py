@@ -318,20 +318,7 @@ def _xclim_mapping(
             xclim_module_levels[2],
         )
     xda = preprocess_climind(xda_dict=xda, index=index)
-    try:
-        climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
-    except xc.core._exceptions.ValidationError as ve:
-        # necessary exception handling when snow_depth is an input variable
-        log = _get_logger()
-        log.error(f"xclim ValidationError: {ve}")
-        log.debug(
-            "Resampling input data manually to daily frequency for proper data validation"
-        )
-        xda = {
-            key: val.resample(time="D").mean(keep_attrs=True)
-            for key, val in xda.items()
-        }
-        climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
+    climind = xclim_func_obj(**xda, freq=freq, **extra_kwargs)
     climind = postprocess_climind(climind=climind, index=index, freq=freq)
     return climind
 
