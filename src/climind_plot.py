@@ -993,6 +993,7 @@ if __name__ == "__main__":
                 )
             elif aggperiod == "sea":
                 for season_str, xdaiter in xda.groupby("time.season"):
+                    vmin, vmax = get_vmin_vmax(arr=xdaiter, type_="99p")
                     stampplot_time(
                         xda=xdaiter,
                         vmin=vmin,
@@ -1046,7 +1047,7 @@ if __name__ == "__main__":
                         time=slice(str(years_past[0]), str(years_past[1]))
                     ).mean(dim="time")
                     xdaiter.attrs["units"] = unit
-                    vmin, vmax = get_vmin_vmax(arr=xda, type_="99p")
+                    vmin, vmax = get_vmin_vmax(arr=xdaiter, type_="99p")
                     stampplot_time(
                         xda=xdaiter,
                         vmin=vmin,
