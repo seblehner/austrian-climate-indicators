@@ -19,7 +19,7 @@ and
 Matthias Schlögl
 <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-4357-523X)</sup>:
 **Climate indicators for Austria since 1961 at 1 km resolution**.
-
+*Sci Data* 13, 475 (2026). [doi:10.1038/s41597-026-06834-y](https://doi.org/10.1038/s41597-026-06834-y).
 
 > [!NOTE]
 > In a nutshell:
