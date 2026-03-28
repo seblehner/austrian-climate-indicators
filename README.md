@@ -3,7 +3,7 @@
 <!-- badges -->
 <p align="center">
     <a href="https://doi.org/10.1038/s41597-026-06834-y">
-        <img alt="Paper DOI" src="https://img.shields.io/badge/paper-doi:10.1038/s41597--026--06834--y-darkblue"></a>
+        <img alt="Paper DOI" src="https://img.shields.io/badge/paper-doi:10.1038/s41597--026--06834--y-006699?style=flat-square"></a>
     <a href="https://seblehner.github.io/austrian-climate-indicators">
         <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub-Pages-default?style=flat-square&color=18bc9c&logo=GitHub"></a>
     <a href="https://doi.org/10.5281/zenodo.16928608">
