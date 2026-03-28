@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software/dataset, please cite it as below."
+authors:
+  - family-names: Lehner
+    given-names: Sebastian
+    orcid: https://orcid.org/0000-0002-7562-8172
+  - family-names: Schlögl
+    given-names: Matthias
+    orcid: https://orcid.org/0000-0002-4357-523X
+title: "High-resolution climate indicators for gridded climate data in Austria"
+version: 1.1.1
+doi: 10.5281/zenodo.16928608
+date-released: 2026-02-04
+preferred-citation:
+  type: article
+  authors:
+  - family-names: Lehner
+    given-names: Sebastian
+    orcid: https://orcid.org/0000-0002-7562-8172
+  - family-names: Schlögl
+    given-names: Matthias
+    orcid: https://orcid.org/0000-0002-4357-523X
+  doi: "10.1038/s41597-026-06834-y"
+  journal: "Scientific Data"
+  start: 475
+  title: "Climate indicators for Austria since 1961 at 1 km resolution"
+  volume: 13
+  year: 2026
