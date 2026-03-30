@@ -66,8 +66,8 @@ excluded in the definitions.
 
 ## Temperature-based climate indicators
 
-The input variables used are \texttt{TX} for daily maximum temperature, \texttt{TN} for daily minimum
-temperature and \texttt{TG} for daily average temperature, all in degrees Celsius.
+The input variables used are $\text{TX}$ for daily maximum temperature, $\text{TN}$ for daily minimum
+temperature and $\text{TG}$ for daily average temperature, all in degrees Celsius.
 
 
 ### `TGmean`:
@@ -99,9 +99,6 @@ $$
         0, & \text{otherwise}.
     \end{cases} 
 $$ {#eq-fd}
-
-
-{{< pagebreak >}}
 
 
 ### `SU`:
@@ -160,11 +157,11 @@ The number of days between the start and end of the growing season. The growing 
 
 
 ### `spring_backlash`:
-The number of events counted as days where $\text{TN}_t < -2$ °C for all days $t$ after \texttt{GSS} and up to day 180 of the year. This is associated with spring frost. 
+The number of events counted as days where $\text{TN}_t < -2$ °C for all days $t$ after $\text{GSS}$ and up to day 180 of the year. This is associated with spring frost. 
 
 
 ### `SBI`:
-The spring backlash index represents the growing degree days above 5 °C (see \texttt{GDD5}) for all days $t$ occurring after \texttt{GSS} and up to the last spring backlash event. 
+The spring backlash index represents the growing degree days above 5 °C (see $\text{GDD5}$) for all days $t$ occurring after $\text{GSS}$ and up to the last spring backlash event.
 
 
 ### `TXx`:
@@ -259,11 +256,11 @@ $\text{TN}$ based on the reference period 1991--2020.
 
 
 ### `HSF`:
-The hot spell frequency denotes the number of hot spells as defined in the \texttt{WSDI} indicator.
+The hot spell frequency denotes the number of hot spells as defined in the $\text{WSDI}$ indicator.
 
 
 ### `CSF`:
-The cold spell frequency denotes the number of cold spells as defined as in the \texttt{CSDI} indicator.
+The cold spell frequency denotes the number of cold spells as defined as in the $\text{CSDI}$ indicator.
 
 
 ### `CE`:
@@ -323,13 +320,10 @@ where $n_{d}$ is the number of days in the period under consideration (e.g. annu
 
 
 ### `ETR`:
-The extreme temperature range is defined as the difference between the maximum daily maximum temperature (\texttt{TXx}) and the minimum daily minimum temperature (\texttt{TNn}):
+The extreme temperature range is defined as the difference between the maximum daily maximum temperature ($\text{T}x$) and the minimum daily minimum temperature ($\text{TN}n$):
 $$
     f(\text{TX}, \text{TN}) = \text{TX}x - \text{TN}n
 $$ {#eq-etr}
-
-
-{{< pagebreak >}}
 
 
 ### `BIO01`:
@@ -344,7 +338,7 @@ $$ {#eq-bio02}
 
 
 ### `BIO03`:
-The ratio of the mean diurnal temperature range (\texttt{BIO02}) and the annual temperature range (\texttt{BIO07}):
+The ratio of the mean diurnal temperature range ($\text{BIO02}$) and the annual temperature range ($\text{BIO07}$):
 $$
     f(\text{TX},\text{TN}) = \frac{\mathrm{BIO02}}{\mathrm{BIO07}}
 $$ {#eq-bio03}
@@ -359,19 +353,16 @@ where $\sigma_{\text{TG}}$ is the standard deviation daily mean temperature ($\t
 
 
 ### `BIO05`:
-The maximum daily maximum temperature (see @eq-txx) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in \texttt{xclim} but differs from the Bioclim definition, which refers to the maximum temperature \emph{of the warmest month}.
+The maximum daily maximum temperature (see @eq-txx) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in $\texttt{xclim}$ but differs from the Bioclim definition, which refers to the maximum temperature of the warmest month.
 
 
 ### `BIO06`:
-The maximum daily maximum temperature (see @eq-tnn) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in \texttt{xclim} but differs from the Bioclim definition, which refers to the minimum temperature \emph{of the coldest month}.
+The maximum daily maximum temperature (see @eq-tnn) for an annual aggregation period. Note that this definition aligns with the ANUCLIM definitions \cite{xu_new_2013} as implemented in $\texttt{xclim}$ but differs from the Bioclim definition, which refers to the minimum temperature of the coldest month.
 
 
 ### `BIO07`:
 The difference between the maximum daily maximum temperature ($\text{TX}x$) and the minimum daily minimum temperature ($\text{TN}n$).
 This is equivalent to @eq-etr for an annual aggregation period.
-
-
-{{< pagebreak >}}
 
 
 ### `BIO10`:
@@ -420,13 +411,10 @@ $$ {#eq-hddhead20}
 where $c$ is a constant with value $20$ °C.
 
 
-{{< pagebreak >}}
-
-
 ## Precipitation-based climate indicators
 
 
-The input variable used is \texttt{RR} for daily precipitation totals in mm
+The input variable used is $\text{RR}$ for daily precipitation totals in mm
 (corresponding to $\text{kg} \, \text{m}^{-2} \, \text{day}^{-1}$).
 Wet days are defined as days where $\text{RR} > 1$ mm.
 
@@ -455,7 +443,7 @@ where $\text{RR}_{5t}$ represents the total precipitation accumulated within a 5
 ### `RR90pct`:
 The 90th percentile of daily precipitation totals for wet days ($\text{RR}_{wet,90p}$) within a specified period:
 $$
-    f(\text{RR}) = \text{RR}_{wet,90p})
+    f(\text{RR}) = \text{RR}_{wet,90p}
 $$ {#eq-rr90pct}
 
 
@@ -468,9 +456,6 @@ The average daily precipitation within a specified period, calculated as:
 $$
     f(\text{RR}) = \frac{1}{n} \sum_{t=1}^n \text{RR}_t
 $$ {#eq-rrmean}
-
-
-{{< pagebreak >}}
 
 
 ### `SDII`:
@@ -514,9 +499,6 @@ Consecutive dry days, defined as the number of days in the longest consecutive p
 
 ### `CWD`:
 Consecutive wet days, defined as the number of days in the longest consecutive period where daily precipitation exceeds 1 mm.
-
-
-{{< pagebreak >}}
 
 
 ### `Rsum30min`:
@@ -616,9 +598,6 @@ $$
 $$ {#eq-bio13}
 
 
-{{< pagebreak >}}
-
-
 ### `BIO14`:
 The minimum daily precipitation within a year:
 $$
@@ -675,8 +654,8 @@ where $j$ is limited to the days within the months October to March.
 ## Radiation-based climate indicators
 
 
-These indicators utilize sunshine duration as input variables to quantify solar radiation. Specifically, the two key input variables used are \texttt{SA} for daily absolute sunshine duration in hours,
-and \texttt{SR} for daily relative sunshine duration, expressed as a fraction.
+These indicators utilize sunshine duration as input variables to quantify solar radiation. Specifically, the two key input variables used are $\text{SA}$ for daily absolute sunshine duration in hours,
+and $\text{SR}$ for daily relative sunshine duration, expressed as a fraction.
 
 
 ### `SAmean`:
@@ -697,9 +676,9 @@ $$ {#eq-srmean}
 ## Humidity-based climate indicators
 
 
-The input variables used are \texttt{ET0} for daily reference evapotranspiration in mm,
-and \texttt{SPEI} as the Standardized Precipitation Evaporation Index \cite{vicente-serrano_multiscalar_2010} for 30, 90 and 365 days
-(\texttt{SPEI30}, \texttt{SPEI90} and \texttt{SPEI365}), respectively.
+The input variables used are $\text{ET0}$ for daily reference evapotranspiration in mm,
+and $\text{SPEI}$ as the Standardized Precipitation Evaporation Index \cite{vicente-serrano_multiscalar_2010} for 30, 90 and 365 days
+($\text{SPEI30}$, $\text{SPEI90}$ and $\text{SPEI365}$), respectively.
 
 
 ### `ET0mean`:
@@ -731,11 +710,11 @@ $$ {#eq-spei30mean}
 
 
 ### `SPEI90mean`:
-Similar to @eq-spei30mean, but with \texttt{SPEI90} instead of \texttt{SPEI30}.
+Similar to @eq-spei30mean, but with $\text{SPEI90}$ instead of $\text{SPEI30}$.
 
 
 ### `SPEI365mean`:
-Similar to @eq-spei30mean, but with \texttt{SPEI365} instead of \texttt{SPEI30}.
+Similar to @eq-spei30mean, but with $\text{SPEI365}$ instead of $\text{SPEI30}$.
 
 
 ### `SPEI90_th-2`:
@@ -766,8 +745,6 @@ where $c = 1$ mm.
 Similar to @eq-spei90th_pos, but with $c=2$.
 
 
-{{< pagebreak >}}
-
 ## Snow-based climate indicators
 
 
@@ -782,23 +759,23 @@ The input variables are:
 
 
 ### `HS_Q95`:
-The 95th percentile of $\texttt{SDE}$.
+The 95th percentile of $\text{SDE}$.
 
 ### `HSfr_Q95`:
-The 95th percentile of $\texttt{SF}$.
+The 95th percentile of $\text{SF}$.
 
 ### `SWE_Q95`:
-The 95th percentile of $\texttt{SWE\_tot}$.
+The 95th percentile of $\text{SWE\_tot}$.
 
 ### `SWEfr_Q95`:
-The 95th percentile of $\texttt{SWE\_fr}$.
+The 95th percentile of $\text{SWE\_fr}$.
 
 ### `NSD_72h`:
 The maximum 3-day fresh snow depth (`new snow depth within 72 hours') within a specified period, calculated as:
 $$
     f(\text{SF}) = \max ( \text{SF}_{3t} )
 $$ {#eq-nsd72h}
-where $\text{SF}_{3t}$ denotes the 3-day \texttt{SF}, calculated using a 3-day running window.
+where $\text{SF}_{3t}$ denotes the 3-day $\text{SF}$, calculated using a 3-day running window.
 
 
 ### `SCD01`:
@@ -816,15 +793,12 @@ where $c = 1$ cm.
 Similar to @eq-scd01, but with $c=10$.
 
 
-{{< pagebreak >}}
-
-
 ### `runoff_Q95`:
-The 95th percentile of \texttt{runoff}.
+The 95th percentile of $\text{runoff}$.
 
 
 ### `snowmelt_Q95`:
-The 95th percentile of \texttt{snowmelt}.
+The 95th percentile of $\text{snowmelt}$.
 
 
 ### `HN1_SD`:
@@ -846,7 +820,6 @@ Similar to @eq-hn1sd, but with $c=10$ cm.
 ### `HN20_SD`:
 Similar to @eq-hn1sd, but with $c=20$ cm.
 
-{{< pagebreak >}}
 
 ## Climate indicators based on multiple input variables
 
@@ -892,9 +865,6 @@ $$
     \text{season} = \argmax (\text{TG}_{sea})
 $$
 with $\text{TG}_{sea}$ denoting the seasonal average temperature.
-
-
-{{< pagebreak >}}
 
 
 ### `ET0_Qwet`:
